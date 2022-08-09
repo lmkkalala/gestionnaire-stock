@@ -11,10 +11,10 @@
                                         <h5 class="card-title mb-1">Filtrer par noms ou par date.</h5>
                                         <form class="row" method="post">
                                         <div class="col-md-3 mt-1">
-                                            <input type="text" name="article" class="form-control shadow-none" placeholder="Article">
+                                            <input type="text" name="article" class="form-control shadow-none" placeholder="Article . . .">
                                         </div>
                                         <div class="col-md-3 mt-1">
-                                            <input type="date" name="date" class="form-control shadow-none">
+                                            <input type="text" name="date" class="form-control shadow-none" placeholder="2022-07-18">
                                         </div>
                                         <div class="col-md-3 mt-1">
                                             <button type="submit" class="form-control shadow-none"> <i class="align-middle" data-feather="refresh-ccw"></i> <strong> Filtrer</strong></button>
@@ -46,7 +46,7 @@
                                                 foreach ($list_article as $key => $value) {
                                             ?>
                                             <tr>
-                                                <td><?=$list_article[$key]['article']?></td>
+                                                <td><a href="<?=base_url('Panel/pages/details/').$list_article[$key]['article_id']?>" class="text-decoration-none text-secondary"><?=$list_article[$key]['article']?></a></td>
                                                 <td><?=$list_article[$key]['quantite_stock']?></td>
                                                 <td><?=date($list_article[$key]['added_date'])?></td>
                                                 <td><?=$list_article[$key]['pa']?></td>
@@ -80,10 +80,10 @@
 					<div class="row text-muted">
 						<div class="col-6 text-start">
 							<p class="mb-0">
-								<a class="text-muted" href="https://adminkit.io/" target="_blank"><strong>AdminKit</strong></a> &copy;
+								&copy; <a class="text-muted" href="" target="_blank"><strong>Backend of LMK Kalala</strong></a><a class="text-muted" href="https://adminkit.io/" target="_blank"><strong> & AdminKit</strong></a>
 							</p>
 						</div>
-						<div class="col-6 text-end">
+						<!-- <div class="col-6 text-end">
 							<ul class="list-inline">
 								<li class="list-inline-item">
 									<a class="text-muted" href="https://adminkit.io/" target="_blank">Support</a>
@@ -98,7 +98,7 @@
 									<a class="text-muted" href="https://adminkit.io/" target="_blank">Terms</a>
 								</li>
 							</ul>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</footer>
@@ -317,6 +317,7 @@
                     <div class="col-8 form-group">
                         <label>Article</label>
                         <input type="text" name="modify_article_article" id="modify_article_article" autocomplete="false" class="form-control" required="" minlength="2" placeholder="">
+                        <input type="hidden" name="modify_article_article_id" id="modify_article_article_id" autocomplete="false" class="form-control" readonly="" minlength="2" placeholder="">
                     </div>
 
                     <div class="col-4 form-group">
@@ -328,7 +329,7 @@
                 <div class="row">
                     <div class="col-6 form-group">
                         <label>PA</label>
-                        <input type="number" name="modify_article_pa" id="modify_article_pa" autocomplete="false" class="form-control" readonly="">
+                        <input type="number" name="modify_article_pa" id="modify_article_pa" autocomplete="false" class="form-control">
                     </div>
 
                     <div class="col-6 form-group">
@@ -346,7 +347,7 @@
                     <textarea name="modify_description" id="modify_description" autocomplete="false" class="form-control" required=""></textarea>
                 </div>
                 <div class="form-group mt-2">
-                    <button class="btn btn-secondary w-100">
+                    <button type="submit" class="btn btn-secondary w-100">
 						<!-- <div class="spinner-border d-none-r" id="load_enrg_3" role="status"></div> -->
 						Confirmer
 					</button>

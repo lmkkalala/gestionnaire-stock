@@ -9,6 +9,13 @@ class DataHandle extends CI_Model {
 		return $this->db->get($table)->result_array();
 	}
 
+	public function bestsoldProduct($l){
+		$this->db->order_by('id','desc');
+		$this->db->limit($l);
+		$this->db->group_by('article_id');
+		return $this->db->get('vente')->result_array();
+	}
+
 	public function event($data){
 		return $this->db->insert('journal',$data);
 	}
@@ -34,7 +41,28 @@ class DataHandle extends CI_Model {
 		return $this->db->get_where($table,$conditon)->result_array();
 	}
 
+	public function VenteMoney($conditon){
+		$this->db->like(array('sold_date'=>$conditon));
+		$vente = $this->db->get('vente')->result_array();
+		$v= 0;
+		foreach($vente as $key => $rows){
+			$v = $v + ($vente[$key]['pvu'] * $vente[$key]['quantite_vendu']);
+		}
+		return $v;
+	}
+
+	public function VenteAmount($conditon){
+		$this->db->like(array('sold_date'=>$conditon));
+		$vente = $this->db->get('vente')->result_array();
+		$n_vente = 0;
+		foreach($vente as $key => $rows){
+			$n_vente = $n_vente + $vente[$key]['quantite_vendu'];
+		}
+		return $n_vente;
+	}
+
 	public function loadDataLike($table,$conditon=array()){
+		$this->db->order_by('id','DESC');
 		$this->db->like($conditon);
 		return $this->db->get_where($table)->result_array();
 	}

@@ -347,6 +347,37 @@ class Panel extends CI_Controller {
          $this->DataHandle->event($data);
     }
 
+    public function modify_article(){
+        $where = array('article_id'=>htmlspecialchars($this->input->post('modify_article_article_id')));
+
+            $article = array(
+                'article_id'=>htmlspecialchars($this->input->post('modify_article_article_id')),
+                'article'=> htmlspecialchars($this->input->post('modify_article_article')),
+                'quantite_stock' => htmlspecialchars($this->input->post('modify_article_quantite')),
+                'pa' => htmlspecialchars($this->input->post('modify_article_pa')),
+                'pv' => htmlspecialchars($this->input->post('modify_article_pv')),
+                'added_date' => htmlspecialchars($this->input->post('modify_date')),
+                'description' => htmlspecialchars($this->input->post('modify_description')),
+            );
+            $article = $this->DataHandle->updateData('article',$article,$where);
+            if($article){
+                $data = array(
+                    'user_id' => $this->user_id,
+                    'date' => time(),
+                    'description'=>'Article '.htmlspecialchars($this->input->post('modify_article_article')).' Modifier.',
+                );
+                echo json_encode(array('status'=>'success','info'=>'Article Modifier.'));
+            }else{
+                $data = array(
+                    'user_id' => $this->user_id,
+                    'date' => time(),
+                    'description'=>'Echec d\'operation sur Article, '.htmlspecialchars($this->input->post('sell_article_article')).' veuiller reessayer.',
+                );
+                echo json_encode(array('status'=>'fail','info'=>'Echec d\'operation, veuiller reessayer.'));
+            }
+         $this->DataHandle->event($data);
+    }
+
     public function new_depense(){
         $data = array(
             'montant' => htmlspecialchars($this->input->post('new_depense_amount')),
@@ -508,8 +539,16 @@ class Panel extends CI_Controller {
     }
 
     public function delete_article(){
-        $article_id = htmlspecialchars($this->input->post('data'));
-        echo json_encode(array('status'=>'success','info'=>'Article Supprimer.'));
+        $data = htmlspecialchars($this->input->post('data'));
+        $delete = $this->DataHandle->deleteData('article',array('article_id'=> $data));
+        if($delete){
+            echo json_encode(array('status'=>'success','info'=>'Article Supprimer.'));
+            $data = $this->event_data($this->user_id,'Article suppressionner, id :'.$data.'.');
+        }else{
+            echo json_encode(array('status'=>'fail','info'=>'Echec d\'operation, veuiller reessayer.'));
+            $data = $this->event_data($this->user_id,'Echec d\'operation sur suppression Article, id :'.$data.'.');
+        }
+        $this->DataHandle->event($data);
     }
 
     var $image_file_type = 'gif|jpg|png|jpeg|jfif|pdf';
@@ -723,8 +762,59 @@ class Panel extends CI_Controller {
         echo password_hash('1234pass',PASSWORD_DEFAULT);
     }
 
-    public function bestSell(){
-        //$this->DataHandle->loadDataLimit('vente');
-        echo json_encode(array('status'=>'success','sellers'=>["Chrome", "Firefox", "IE"],'montant'=>[4306, 3801, 1689]));
+    public function bestsoldProduct(){
+        $row = $this->DataHandle->bestsoldProduct('4');
+        $html = '';
+        foreach ($row as $key => $value) {
+            $montant = $row[$key]['quantite_vendu'] * $row[$key]['pvu'];
+            $html = $html.'<tr>
+            <td>'.$row[$key]['article'].'</td>
+            <td class="text-end">'.$montant.'</td>
+            </tr>
+            ';
+        }
+        $sellers = array();
+        $montant = array();
+        foreach ($row as $key => $value) {
+            $montant[$key] = $row[$key]['quantite_vendu'] * $row[$key]['pvu'];
+            $sellers[$key] =  $row[$key]['article']; 
+        }
+        
+        echo json_encode(array('status'=>'success','product'=>$html,'sellers'=>$sellers,'montant'=>$montant));
+    }
+
+    public function number(){
+        $year = date('Y');
+        $j = $this->DataHandle->VenteAmount($year.'-01');
+        $f = $this->DataHandle->VenteAmount($year.'-02');
+        $m = $this->DataHandle->VenteAmount($year.'-03');
+        $a = $this->DataHandle->VenteAmount($year.'-04');
+        $may = $this->DataHandle->VenteAmount($year.'-05');
+        $j = $this->DataHandle->VenteAmount($year.'-06');
+        $jl = $this->DataHandle->VenteAmount($year.'-07');
+        $a = $this->DataHandle->VenteAmount($year.'-08');
+        $s = $this->DataHandle->VenteAmount($year.'-09');
+        $o = $this->DataHandle->VenteAmount($year.'-10');
+        $n = $this->DataHandle->VenteAmount($year.'-11');
+        $d = $this->DataHandle->VenteAmount($year.'-12');
+
+        echo json_encode(array('status'=>'success','number'=>array($j,$f,$m,$a,$may,$j,$jl,$a,$s,$o,$n,$d)));
+    }
+
+    public function money(){
+        $year = date('Y');
+        $j = $this->DataHandle->VenteMoney($year.'-01');
+        $f = $this->DataHandle->VenteMoney($year.'-02');
+        $m = $this->DataHandle->VenteMoney($year.'-03');
+        $a = $this->DataHandle->VenteMoney($year.'-04');
+        $may = $this->DataHandle->VenteMoney($year.'-05');
+        $j = $this->DataHandle->VenteMoney($year.'-06');
+        $jl = $this->DataHandle->VenteMoney($year.'-07');
+        $a = $this->DataHandle->VenteMoney($year.'-08');
+        $s = $this->DataHandle->VenteMoney($year.'-09');
+        $o = $this->DataHandle->VenteMoney($year.'-10');
+        $n = $this->DataHandle->VenteMoney($year.'-11');
+        $d = $this->DataHandle->VenteMoney($year.'-12');
+        echo json_encode(array('status'=>'success','money'=>array($j,$f,$m,$a,$may,$j,$jl,$a,$s,$o,$n,$d)));
     }
 }

@@ -10,9 +10,9 @@
 	<meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link rel="shortcut icon" href="<?=base_url('static/')?>img/icons/icon-48x48.png" />
+	<link rel="shortcut icon" href="<?=base_url('static/')?>img/icons/icon.png" />
 
-	<link rel="canonical" href="https://demo-basic.adminkit.io/" />
+	<link rel="canonical" href="" />
 
 	<title>GESTION DES STOCKS</title>
 
@@ -125,6 +125,7 @@
 						$('#sell_pau').val(response.data.pa);
 					}else if(response.modal == 'UpdateArticle'){
 						$('#modify_article_article').val(response.data.article);
+						$('#modify_article_article_id').val(response.data.article_id);
 						$('#modify_article_quantite').val(response.data.quantite_stock);
 						$('#modify_article_pa').val(response.data.pa);
 						$('#modify_article_pv').val(response.data.pv);
@@ -284,6 +285,12 @@
 				let form = new FormData(this);
 				ajax(form,'Panel/update_sold','update_sold');
 			});
+
+			$('#modify_article').on('submit',function(event){
+				event.preventDefault();
+				let form = new FormData(this);
+				ajax(form,'Panel/modify_article','modify_article');
+			});
 			
 			$('#new_depense').on('submit',function(event){
 				event.preventDefault();
@@ -379,7 +386,7 @@
 
 				</ul>
 
-				<div class="sidebar-cta">
+				<!-- <div class="sidebar-cta">
 					<div class="sidebar-cta-content">
 						<strong class="d-inline-block mb-2">GDS</strong>
 						<div class="mb-3 text-sm">
@@ -389,7 +396,7 @@
 							<a href="" class="btn btn-primary">LMK Code</a>
 						</div>
 					</div>
-				</div>
+				</div> -->
 			</div>
 		</nav>
 	
@@ -539,7 +546,7 @@
 								<i class="align-middle" data-feather="settings"></i>
 							</a>
 
-							<a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
+							<a class="nav-link  d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
 								<img src="<?=base_url('static/img/user/')?><?=$this->session->profile?>" class="avatar img-fluid rounded me-1" alt="<?=$this->session->name?>" /> <span class="text-dark"><?=$this->session->name?></span>
 							</a>
 							<div class="dropdown-menu dropdown-menu-end">

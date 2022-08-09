@@ -11,13 +11,13 @@
                                         <h5 class="card-title mb-1">Filter par noms ou par date.</h5>
                                         <form class="row" method="post">
 											<div class="col-md-3 mt-1">
-												<input type="text" name="description" class="form-control shadow-none" placeholder="Article">
+												<input type="text" name="description" class="form-control shadow-none" placeholder="Article . . .">
 											</div>
 											<div class="col-md-3 mt-1">
-												<input type="date" name="date" class="form-control shadow-none">
+												<input type="text" name="date" class="form-control shadow-none" placeholder="2022-07-18">
 											</div>
 											<div class="col-md-3 mt-1">
-												<button type="submit" class="form-control shadow-none"> <strong>Filtrer</strong></button>
+												<button type="submit" class="form-control shadow-none"> <i class="align-middle" data-feather="refresh-ccw"></i> <strong>Filtrer</strong></button>
 											</div>
 										</form>
                                     </div>
@@ -48,10 +48,10 @@
 					<div class="row text-muted">
 						<div class="col-6 text-start">
 							<p class="mb-0">
-								<a class="text-muted" href="https://adminkit.io/" target="_blank"><strong>AdminKit</strong></a> &copy;
+								&copy; <a class="text-muted" href="" target="_blank"><strong>Backend of LMK Kalala</strong></a><a class="text-muted" href="https://adminkit.io/" target="_blank"><strong> & AdminKit</strong></a>
 							</p>
 						</div>
-						<div class="col-6 text-end">
+						<!-- <div class="col-6 text-end">
 							<ul class="list-inline">
 								<li class="list-inline-item">
 									<a class="text-muted" href="https://adminkit.io/" target="_blank">Support</a>
@@ -66,7 +66,7 @@
 									<a class="text-muted" href="https://adminkit.io/" target="_blank">Terms</a>
 								</li>
 							</ul>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</footer>

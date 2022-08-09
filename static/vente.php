@@ -11,10 +11,10 @@
                                         <h5 class="card-title mb-1">Filtrer par noms ou par date.</h5>
                                         <form class="row" method="post">
                                             <div class="col-md-3 mt-1">
-                                                <input type="text" name="article" class="form-control shadow-none" placeholder="Article">
+                                                <input type="text" name="article" class="form-control shadow-none" placeholder="Article . . .">
                                             </div>
                                             <div class="col-md-3 mt-1">
-                                                <input type="date" name="date" class="form-control shadow-none">
+                                                <input type="text" name="date" class="form-control shadow-none" placeholder="2022-07-18">
                                             </div>
                                             <div class="col-md-3 mt-1">
                                                 <button type="submit" class="form-control shadow-none"> <i class="align-middle" data-feather="refresh-ccw"></i> <strong> Filtrer</strong></button>
@@ -39,7 +39,7 @@
                                         <tbody>
                                         <?php foreach ($list_vente as $key => $value) { ?>
                                             <tr>
-                                                <td><?=$list_vente[$key]['article']?></td>
+                                                <td><a href="<?=base_url('Panel/pages/')?>details" class="text-decoration-none text-secondary"><?=$list_vente[$key]['article']?></a></td>
                                                 <td><?=$list_vente[$key]['quantite_vendu']?></td>
                                                 <td><?=$list_vente[$key]['quantite_stock']?></td>
                                                 <td><?=date($list_vente[$key]['sold_date'])?></td>
@@ -68,10 +68,10 @@
 					<div class="row text-muted">
 						<div class="col-6 text-start">
 							<p class="mb-0">
-								<a class="text-muted" href="https://adminkit.io/" target="_blank"><strong>AdminKit</strong></a> &copy;
+								&copy; <a class="text-muted" href="" target="_blank"><strong>Backend of LMK Kalala</strong></a><a class="text-muted" href="https://adminkit.io/" target="_blank"><strong> & AdminKit</strong></a>
 							</p>
 						</div>
-						<div class="col-6 text-end">
+						<!-- <div class="col-6 text-end">
 							<ul class="list-inline">
 								<li class="list-inline-item">
 									<a class="text-muted" href="https://adminkit.io/" target="_blank">Support</a>
@@ -86,7 +86,7 @@
 									<a class="text-muted" href="https://adminkit.io/" target="_blank">Terms</a>
 								</li>
 							</ul>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</footer>

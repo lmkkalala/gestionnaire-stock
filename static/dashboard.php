@@ -4,16 +4,16 @@
 					<div class="row mb-3">
 						<div class="col-md-3"><h3 class="h3 mb-3"><strong>VUE </strong> GLOBAL</h3></div>
 						<div class="col-md-2"><a href="<?=base_url('Panel/pages/')?>article" class="btn btn-lg btn-primary w-100 mt-1"><i class="align-middle" data-feather="dollar-sign"></i> Vendre</a></div>
+						<div class="col-md-3"><a href="<?=base_url('Panel/pages/')?>article" class="btn btn-lg btn-primary w-100 mt-1"><i class="align-middle" data-feather="truck"></i> Approvisionner</a></div>
 						<div class="col-md-2"><a href="<?=base_url('Panel/pages/')?>depense" class="btn btn-lg btn-primary w-100 mt-1"><i class="align-middle" data-feather="minus-square"></i> Depense</a></div>
 						<div class="col-md-2"><a href="<?=base_url('Panel/pages/')?>achat" class="btn btn-lg btn-primary w-100 mt-1"><i class="align-middle" data-feather="shopping-bag"></i> Achats</a></div>
-						<div class="col-md-3"><a href="<?=base_url('Panel/pages/')?>article" class="btn btn-lg btn-primary w-100 mt-1"><i class="align-middle" data-feather="shopping-bag"></i> Approvisionner</a></div>
 						<div class="col-md-12 mt-2">
 							<form class="row" method="post">
-							<div class="col-md-3 mt-1">
-									<input type="text" name="article"  class="form-control shadow-none" value="<?=$article_s?>" placeholder="Article ...">
+								<div class="col-md-3 mt-1">
+									<input type="text" name="article"  class="form-control shadow-none" value="<?=$article_s?>" placeholder="Article . . .">
 								</div>
 								<div class="col-md-3 mt-1">
-									<input type="date" name="date"  class="form-control shadow-none" value="<?=$date?>">
+									<input type="text" name="date"  class="form-control shadow-none" value="<?=$date?>" placeholder="2022-07-18">
 								</div>
 								<div class="col-md-3 mt-1">
 									<button type="submit" class="form-control shadow-none"> <i class="align-middle" data-feather="refresh-ccw"></i> <strong> Filtrer</strong></button>
@@ -27,202 +27,220 @@
 							<div class="w-100">
 								<div class="row">
 									<div class="col-md-4">
-										<div class="card">
-											<div class="card-body">
-												<div class="row">
-													<div class="col mt-0">
-														<h5 class="card-title">Valeur Stock Article PV</h5>
-													</div>
+										<a href="<?=base_url('Panel/pages/')?>article" class="text-decoration-none text-dark">
+											<div class="card">
+												<div class="card-body">
+													<div class="row">
+														<div class="col mt-0">
+															<h5 class="card-title">Valeur Stock Article PV</h5>
+														</div>
 
-													<div class="col-auto">
-														<div class="stat text-primary">
-															<i class="align-middle" data-feather="dollar-sign"></i>
+														<div class="col-auto">
+															<div class="stat text-primary">
+																<i class="align-middle" data-feather="dollar-sign"></i>
+															</div>
 														</div>
 													</div>
-												</div>
-												<h1 class="mt-1 mb-3">$ <small><?=$count_pvt?></small></h1>
-												<div class="mb-0">
-													<!-- <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -3.65% </span>
-													<span class="text-muted">Since last week</span> --><span class="text-muted">Prix de vente Total</span>
+													<h1 class="mt-1 mb-3">$ <small><?=$count_pvt?></small></h1>
+													<div class="mb-0">
+														<!-- <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -3.65% </span>
+														<span class="text-muted">Since last week</span> --><span class="text-muted">Prix de vente Total</span>
+													</div>
 												</div>
 											</div>
-										</div>
+										</a>
 									</div>
 									<div class="col-md-4">
-										<div class="card">
-											<div class="card-body">
-												<div class="row">
-													<div class="col mt-0">
-														<h5 class="card-title">Valeur Stock Article PA</h5>
-													</div>
+										<a href="<?=base_url('Panel/pages/')?>article" class="text-decoration-none text-dark">
+											<div class="card">
+												<div class="card-body">
+													<div class="row">
+														<div class="col mt-0">
+															<h5 class="card-title">Valeur Stock Article PA</h5>
+														</div>
 
-													<div class="col-auto">
-														<div class="stat text-primary">
-															<i class="align-middle" data-feather="dollar-sign"></i>
+														<div class="col-auto">
+															<div class="stat text-primary">
+																<i class="align-middle" data-feather="dollar-sign"></i>
+															</div>
 														</div>
 													</div>
-												</div>
-												<h1 class="mt-1 mb-3">$ <small><?=$count_pat?></small></h1>
-												<div class="mb-0">
-													<!-- <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -3.65% </span>
-													<span class="text-muted">Since last week</span> --><span class="text-muted">Prix d'achat Total</span>
+													<h1 class="mt-1 mb-3">$ <small><?=$count_pat?></small></h1>
+													<div class="mb-0">
+														<!-- <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -3.65% </span>
+														<span class="text-muted">Since last week</span> --><span class="text-muted">Prix d'achat Total</span>
+													</div>
 												</div>
 											</div>
-										</div>
+										</a>
 									</div>
 									<div class="col-md-4">
-										<div class="card">
-											<div class="card-body">
-												<div class="row">
-													<div class="col mt-0">
-														<h5 class="card-title">Stock Article</h5>
-													</div>
+										<a href="<?=base_url('Panel/pages/')?>article" class="text-decoration-none text-dark">
+											<div class="card">
+												<div class="card-body">
+													<div class="row">
+														<div class="col mt-0">
+															<h5 class="card-title">Nombre Stock Article</h5>
+														</div>
 
-													<div class="col-auto">
-														<div class="stat text-primary">
-															<i class="align-middle" data-feather="truck"></i>
+														<div class="col-auto">
+															<div class="stat text-primary">
+																<i class="align-middle" data-feather="truck"></i>
+															</div>
 														</div>
 													</div>
-												</div>
-												<h1 class="mt-1 mb-3"><small><?=$n_article?></small></h1>
-												<div class="mb-0">
-													<!-- <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -3.65% </span>
-													<span class="text-muted">Since last week</span> --><span class="text-muted">Article enregister</span>
+													<h1 class="mt-1 mb-3"><small><?=$n_article?></small></h1>
+													<div class="mb-0">
+														<!-- <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -3.65% </span>
+														<span class="text-muted">Since last week</span> --><span class="text-muted">Article enregister</span>
+													</div>
 												</div>
 											</div>
-										</div>
+										</a>
 									</div>
 									<div class="col-md-4">
-										<div class="card">
-											<div class="card-body">
-												<div class="row">
-													<div class="col mt-0">
-														<h5 class="card-title">Ventes</h5>
-													</div>
+										<a href="<?=base_url('Panel/pages/')?>vente" class="text-decoration-none text-dark">
+											<div class="card">
+												<div class="card-body">
+													<div class="row">
+														<div class="col mt-0">
+															<h5 class="card-title">Ventes</h5>
+														</div>
 
-													<div class="col-auto">
-														<div class="stat text-primary">
-															<i class="align-middle" data-feather="dollar-sign"></i>
+														<div class="col-auto">
+															<div class="stat text-primary">
+																<i class="align-middle" data-feather="dollar-sign"></i>
+															</div>
 														</div>
 													</div>
-												</div>
-												<h1 class="mt-1 mb-3">$ <small><?=$nos_vente?></small></h1>
-												<div class="mb-0">
-													<!-- <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 5.25% </span>
-													<span class="text-muted">Since last week</span>--><span class="text-muted">cout de vente total</span>
+													<h1 class="mt-1 mb-3">$ <small><?=$nos_vente?></small></h1>
+													<div class="mb-0">
+														<!-- <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 5.25% </span>
+														<span class="text-muted">Since last week</span>--><span class="text-muted">cout de vente total</span>
+													</div>
 												</div>
 											</div>
-										</div>
+										</a>
 									</div>
 									<div class="col-md-4">
-										<div class="card">
-											<div class="card-body">
-												<div class="row">
-													<div class="col mt-0">
-														<h5 class="card-title">Nombre Ventes</h5>
-													</div>
+										<a href="<?=base_url('Panel/pages/')?>vente" class="text-decoration-none text-dark">
+											<div class="card">
+												<div class="card-body">
+													<div class="row">
+														<div class="col mt-0">
+															<h5 class="card-title">Nombre Ventes</h5>
+														</div>
 
-													<div class="col-auto">
-														<div class="stat text-primary">
-															<i class="align-middle" data-feather="shopping-cart"></i>
+														<div class="col-auto">
+															<div class="stat text-primary">
+																<i class="align-middle" data-feather="shopping-cart"></i>
+															</div>
 														</div>
 													</div>
-												</div>
-												<h1 class="mt-1 mb-3"><small><?=$n_vente?></small></h1>
-												<div class="mb-0">
-													<!-- <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 5.25% </span>
-													<span class="text-muted">Since last week</span>--><span class="text-muted">Nombre de vente total</span>
+													<h1 class="mt-1 mb-3"><small><?=$n_vente?></small></h1>
+													<div class="mb-0">
+														<!-- <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 5.25% </span>
+														<span class="text-muted">Since last week</span>--><span class="text-muted">Nombre de vente total</span>
+													</div>
 												</div>
 											</div>
-										</div>
+										</a>
 									</div>
 									<div class="col-md-4">
-										<div class="card">
-											<div class="card-body">
-												<div class="row">
-													<div class="col mt-0">
-														<h5 class="card-title">Achats</h5>
-													</div>
+										<a href="<?=base_url('Panel/pages/')?>article" class="text-decoration-none text-dark">
+											<div class="card">
+												<div class="card-body">
+													<div class="row">
+														<div class="col mt-0">
+															<h5 class="card-title">Achats</h5>
+														</div>
 
-													<div class="col-auto">
-														<div class="stat text-primary">
-															<i class="align-middle" data-feather="dollar-sign"></i>
+														<div class="col-auto">
+															<div class="stat text-primary">
+																<i class="align-middle" data-feather="dollar-sign"></i>
+															</div>
 														</div>
 													</div>
-												</div>
-												<h1 class="mt-1 mb-3">$ <small><?=$count_pa?></small></h1>
-												<div class="mb-0">
-													<!-- <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
-													<span class="text-muted">Since last week</span> --><span class="text-muted">Cout d'approvision</span>
+													<h1 class="mt-1 mb-3">$ <small><?=$count_pa?></small></h1>
+													<div class="mb-0">
+														<!-- <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
+														<span class="text-muted">Since last week</span> --><span class="text-muted">Cout d'approvision</span>
+													</div>
 												</div>
 											</div>
-										</div>
+										</a>
 									</div>
 									<div class="col-md-4">
-										<div class="card">
-											<div class="card-body">
-												<div class="row">
-													<div class="col mt-0">
-														<h5 class="card-title">Nombre Achat</h5>
-													</div>
+										<a href="<?=base_url('Panel/pages/')?>article" class="text-decoration-none text-dark">
+											<div class="card">
+												<div class="card-body">
+													<div class="row">
+														<div class="col mt-0">
+															<h5 class="card-title">Nombre Achat</h5>
+														</div>
 
-													<div class="col-auto">
-														<div class="stat text-primary">
-															<i class="align-middle" data-feather="shopping-bag"></i>
+														<div class="col-auto">
+															<div class="stat text-primary">
+																<i class="align-middle" data-feather="shopping-bag"></i>
+															</div>
 														</div>
 													</div>
-												</div>
-												<h1 class="mt-1 mb-3"><small><?=$n_achet?></small></h1>
-												<div class="mb-0">
-													<!-- <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
-													<span class="text-muted">Since last week</span> --><span class="text-muted">Nombre d'approvisionnement</span>
+													<h1 class="mt-1 mb-3"><small><?=$n_achet?></small></h1>
+													<div class="mb-0">
+														<!-- <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
+														<span class="text-muted">Since last week</span> --><span class="text-muted">Nombre d'approvisionnement</span>
+													</div>
 												</div>
 											</div>
-										</div>
+										</a>
 									</div>
 									<div class="col-md-4">
-										<div class="card">
-											<div class="card-body">
-												<div class="row">
-													<div class="col mt-0">
-														<h5 class="card-title">Benefices</h5>
-													</div>
+										<a href="<?=base_url('Panel/pages/')?>depense" class="text-decoration-none text-dark">
+											<div class="card">
+												<div class="card-body">
+													<div class="row">
+														<div class="col mt-0">
+															<h5 class="card-title">Benefices</h5>
+														</div>
 
-													<div class="col-auto">
-														<div class="stat text-primary">
-															<i class="align-middle" data-feather="dollar-sign"></i>
+														<div class="col-auto">
+															<div class="stat text-primary">
+																<i class="align-middle" data-feather="dollar-sign"></i>
+															</div>
 														</div>
 													</div>
-												</div>
-												<h1 class="mt-1 mb-3">$ <?=$benefice?></h1>
-												<div class="mb-0">
-													<!-- <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -2.25% </span>
-													<span class="text-muted">Since last week</span> --><span class="text-muted">Nos benefice total</span>
+													<h1 class="mt-1 mb-3">$ <?=$benefice?></h1>
+													<div class="mb-0">
+														<!-- <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -2.25% </span>
+														<span class="text-muted">Since last week</span> --><span class="text-muted">Nos benefice total</span>
+													</div>
 												</div>
 											</div>
-										</div>
+										</a>
 									</div>
 									<div class="col-md-4">
-										<div class="card">
-											<div class="card-body">
-												<div class="row">
-													<div class="col mt-0">
-														<h5 class="card-title">DEPENSE</h5>
-													</div>
+										<a href="<?=base_url('Panel/pages/')?>depense" class="text-decoration-none text-dark">
+											<div class="card">
+												<div class="card-body">
+													<div class="row">
+														<div class="col mt-0">
+															<h5 class="card-title">DEPENSE</h5>
+														</div>
 
-													<div class="col-auto">
-														<div class="stat text-primary">
-															<i class="align-middle" data-feather="dollar-sign"></i>
+														<div class="col-auto">
+															<div class="stat text-primary">
+																<i class="align-middle" data-feather="dollar-sign"></i>
+															</div>
 														</div>
 													</div>
-												</div>
-												<h1 class="mt-1 mb-3">$ <?=$spent?></h1>
-												<div class="mb-0">
-													<!-- <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -2.25% </span>
-													<span class="text-muted">Since last week</span> --><span class="text-muted">Nos depense total</span>
+													<h1 class="mt-1 mb-3">$ <?=$spent?></h1>
+													<div class="mb-0">
+														<!-- <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -2.25% </span>
+														<span class="text-muted">Since last week</span> --><span class="text-muted">Nos depense total</span>
+													</div>
 												</div>
 											</div>
-										</div>
+										</a>
 									</div>
 								</div>
 							</div>
@@ -256,20 +274,7 @@
 										<div class="row">
 										<div class="col-6">
 											<table class="table mb-0">
-												<tbody>
-													<tr>
-														<td>Chrome</td>
-														<td class="text-end">4306</td>
-													</tr>
-													<tr>
-														<td>Firefox</td>
-														<td class="text-end">3801</td>
-													</tr>
-													<tr>
-														<td>IE</td>
-														<td class="text-end">1689</td>
-													</tr>
-												</tbody>
+												<tbody id="product"></tbody>
 											</table>
 										</div>
 										<div class="col-6 py-3">
@@ -410,7 +415,7 @@
 					<div class="row text-muted">
 						<div class="col-6 text-start">
 							<p class="mb-0">
-								<a class="text-muted" href="https://adminkit.io/" target="_blank"><strong>Template from AdminKit</strong></a> &copy; <a class="text-muted" href="" target="_blank"><strong>Backend of LMK Kalala</strong></a>
+								&copy; <a class="text-muted" href="" target="_blank"><strong>Backend of LMK Kalala</strong></a><a class="text-muted" href="https://adminkit.io/" target="_blank"><strong> & AdminKit</strong></a>
 							</p>
 						</div>
 						<!-- <div class="col-6 text-end">
@@ -444,6 +449,14 @@
 			gradient.addColorStop(0, "rgba(215, 227, 244, 1)");
 			gradient.addColorStop(1, "rgba(215, 227, 244, 0)");
 			// Line chart
+
+			$.ajax({
+					type:'POST',
+					url:'<?=base_url('Panel/')?>money',
+					dataType:'json',	
+					success: function(data){
+						$('button').prop('disabled',false);
+						if(data.status == 'success'){
 			new Chart(document.getElementById("chartjs-dashboard-line"), {
 				type: "line",
 				data: {
@@ -453,20 +466,7 @@
 						fill: true,
 						backgroundColor: gradient,
 						borderColor: window.theme.primary,
-						data: [
-							2115,
-							1562,
-							1584,
-							1892,
-							1587,
-							1923,
-							2566,
-							2448,
-							2805,
-							3438,
-							2917,
-							3327
-						]
+						data: data.money
 					}]
 				},
 				options: {
@@ -505,6 +505,15 @@
 					}
 				}
 			});
+
+						}
+
+					},
+					error: function (data) {
+						console.log('Error:', data);
+					}
+			});
+
 		});
 	</script>
 	<script>
@@ -512,42 +521,41 @@
 			// Pie chart
 			$.ajax({
 				type:'POST',
-					url:'<?=base_url('Panel/')?>bestSell',
+					url:'<?=base_url('Panel/')?>bestsoldProduct',
 					dataType:'json',	
 					success: function(data){
 						$('button').prop('disabled',false);
 						if(data.status == 'success'){
-							var labels = [];
-							var data = [];
-							labels.push(JSON.stringify(data.sellers));
-							data = push(JSON.stringify(data.montant));
-							console.log(labels);
-							console.log(data);
+							var labels = data.sellers;
+							var montant = data.montant;
+							$('#product').html(data.product);
 							// labels = ["Chrome","Firefox","IE"];
 							// data = [4306,3801,1689];
-							// new Chart(document.getElementById("chartjs-dashboard-pie"), {
-							// 	type: "pie",
-							// 	data: {
-							// 		labels: labels,
-							// 		datasets: [{
-							// 			data: data,
-							// 			backgroundColor: [
-							// 				window.theme.primary,
-							// 				window.theme.warning,
-							// 				window.theme.danger
-							// 			],
-							// 			borderWidth: 5
-							// 		}]
-							// 	},
-							// 	options: {
-							// 		responsive: !window.MSInputMethodContext,
-							// 		maintainAspectRatio: false,
-							// 		legend: {
-							// 			display: false
-							// 		},
-							// 		cutoutPercentage: 75
-							// 	}
-							// });
+							new Chart(document.getElementById("chartjs-dashboard-pie"), {
+								type: "pie",
+								data: {
+									labels: labels,
+									datasets: [{
+										data: montant,
+										backgroundColor: [
+											window.theme.primary,
+											window.theme.warning,
+											window.theme.danger,
+											window.theme.success,
+											window.theme.info
+										],
+										borderWidth: 5
+									}]
+								},
+								options: {
+									responsive: !window.MSInputMethodContext,
+									maintainAspectRatio: false,
+									legend: {
+										display: false
+									},
+									cutoutPercentage: 75
+								}
+							});
 						}else{
 							console.log('Error Best seller');
 						}
@@ -561,46 +569,61 @@
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 			// Bar chart
-			new Chart(document.getElementById("chartjs-dashboard-bar"), {
-				type: "bar",
-				data: {
-					labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-					datasets: [{
-						label: "No",
-						backgroundColor: window.theme.primary,
-						borderColor: window.theme.primary,
-						hoverBackgroundColor: window.theme.primary,
-						hoverBorderColor: window.theme.primary,
-						data: [54, 67, 41, 55, 62, 45, 55, 73, 60, 76, 48, 79],
-						barPercentage: .75,
-						categoryPercentage: .5
-					}]
-				},
-				options: {
-					maintainAspectRatio: false,
-					legend: {
-						display: false
+			$.ajax({
+					type:'POST',
+					url:'<?=base_url('Panel/')?>number',
+					dataType:'json',	
+					success: function(data){
+						$('button').prop('disabled',false);
+						if(data.status == 'success'){
+
+							new Chart(document.getElementById("chartjs-dashboard-bar"), {
+								type: "bar",
+								data: {
+									labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+									datasets: [{
+										label: "No",
+										backgroundColor: window.theme.primary,
+										borderColor: window.theme.primary,
+										hoverBackgroundColor: window.theme.primary,
+										hoverBorderColor: window.theme.primary,
+										data: data.number,//[54, 67, 41, 55, 62, 45, 55, 73, 60, 76, 48, 79],
+										barPercentage: .75,
+										categoryPercentage: .5
+									}]
+								},
+								options: {
+									maintainAspectRatio: false,
+									legend: {
+										display: false
+									},
+									scales: {
+										yAxes: [{
+											gridLines: {
+												display: false
+											},
+											stacked: false,
+											ticks: {
+												stepSize: 20
+											}
+										}],
+										xAxes: [{
+											stacked: false,
+											gridLines: {
+												color: "transparent"
+											}
+										}]
+									}
+								}
+							});
+						}
+
 					},
-					scales: {
-						yAxes: [{
-							gridLines: {
-								display: false
-							},
-							stacked: false,
-							ticks: {
-								stepSize: 20
-							}
-						}],
-						xAxes: [{
-							stacked: false,
-							gridLines: {
-								color: "transparent"
-							}
-						}]
+					error: function (data) {
+						console.log('Error:', data);
 					}
-				}
+				});
 			});
-		});
 	</script>
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {

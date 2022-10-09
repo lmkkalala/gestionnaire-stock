@@ -48,17 +48,17 @@
 										<div class="mb-3">
 											<label class="form-label">Password</label>
 											<input class="form-control form-control-lg" type="password" id="password" name="password" placeholder="Mot de passe" />
-											<small>
-            <a href="index">Mot de passe oublier.</a>
-          </small>
+		<!-- <small>
+            <a href="#">Mot de passe oublier.</a>
+        </small> -->
 										</div>
 										<div>
-											<label class="form-check">
+		<!-- <label class="form-check">
             <input class="form-check-input" type="checkbox" value="remember-me" name="remember-me" checked>
             <span class="form-check-label">
               Se souvenir de moi.
             </span>
-          </label>
+        </label> -->
 										</div>
 										<div class="text-center mt-3">
 											<button type="submit" class="btn btn-lg btn-primary">Connecter</button>
@@ -101,7 +101,7 @@
 							show(data.info);
 							setTimeout(() => {
 								window.location.href = '<?=base_url()?>Panel';
-							}, 4000);
+							}, 3000);
 						}else{
 							show(data.info);
 						}

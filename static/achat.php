@@ -8,24 +8,33 @@
 							<div class="card">
 								<div class="card-header">
 									<div class="row">
-                                        <h5 class="card-title mb-1">Filtrer par noms ou par date.</h5>
                                         <form class="row" method="post">
+                                            <div class="col-md-3 mt-1">
+                                                    <select name="" class="form-control shadow-none fw-bold" id="dates">
+                                                        <option value="date">Annee-Mois-Jour</option>
+                                                        <option value="month">Annee-Mois</option>
+                                                        <option value="number">Annee</option>
+                                                    </select>
+                                            </div>
                                             <div class="col-md-3 mt-1">
                                                 <input type="text" name="article" class="form-control shadow-none" placeholder="Article . . .">
                                             </div>
                                             <div class="col-md-3 mt-1">
-                                                <input type="text" name="date" class="form-control shadow-none" placeholder="2022-07-18">
+                                                <input type="date" name="date" class="form-control shadow-none" placeholder="2022" value="<?=date('d-m-Y',time())?>">
                                             </div>
                                             <div class="col-md-3 mt-1">
-                                                <button type="submit" class="form-control shadow-none"> <i class="align-middle" data-feather="refresh-ccw"></i> <strong> Filtrer</strong></button>
+                                                <button type="submit" class="form-control shadow-none"> 
+                                                    <i class="align-middle" data-feather="refresh-ccw"></i> <strong> OK</strong>
+                                                </button>
                                             </div>
                                         </form>
                                     </div>
 								</div>
-								<div class="card-body d-none d-sm-block">
-                                    <table class="table table-hover my-0">
-                                        <thead>
+								<div class="card-body">
+                                    <table class="table table-hover my-0  mt-2" style="width:100%" id="achat">
+                                        <thead class="bg-secondary text-white w-100">
                                             <tr>
+                                                <th>Plus</th>
                                                 <th>Article</th>
                                                 <th>Qte Acheter</th>
                                                 <th>Qte En Stock</th>
@@ -38,15 +47,25 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php foreach ($list_achat as $key => $value) { ?>
+                                            <?php $achat = 0; 
+                                                    $color = '';
+                                                foreach ($list_achat as $key => $value) { 
+                                                    $achat = $achat + $list_achat[$key]['quantite_acheter']*$list_achat[$key]['pa'];
+                                                    if ($list_achat[$key]['quantite_stock'] < 5) {
+                                                        $color = 'danger';
+                                                    }else{
+                                                        $color = 'dark';
+                                                    } 
+                                            ?>
                                             <tr>
-                                                <td><?=$list_achat[$key]['article']?></td>
+                                                <td><button class="btn fw-bold shadow-none bg-secondary text-white"><i class="align-middle" data-feather="plus-circle"></i></button></td>
+                                                <td width="100" class="text-dark"><?=$list_achat[$key]['article']?></td>
                                                 <td><?=$list_achat[$key]['quantite_acheter']?></td>
-                                                <td><?=$list_achat[$key]['quantite_stock']?></td>
+                                                <td class="text-<?=$color?> fw-bold"><?=$list_achat[$key]['quantite_stock']?></td>
                                                 <td><?=date($list_achat[$key]['appr_date'])?></td>
-                                                <td><?=$list_achat[$key]['pa']?></td>
-                                                <td><?=$list_achat[$key]['pa'] * $list_achat[$key]['quantite_acheter']?></td>
-                                                <td><?=$list_achat[$key]['pv']?></td>
+                                                <td><?=$list_achat[$key]['pa']?> $</td>
+                                                <td><?=$list_achat[$key]['pa'] * $list_achat[$key]['quantite_acheter']?> $</td>
+                                                <td><?=$list_achat[$key]['pv']?> $</td>
                                                 <td>
                                                     <button class="btn shadow-none bg-secondary text-white mt-1"  data-bs-target="#UpdateApprovisionner" data-bs-toggle="modal" data-id="<?=$list_achat[$key]['achat_id']?>"><i class="align-middle" data-feather="edit"></i> Modifier</button>
                                                 </td>
@@ -57,7 +76,14 @@
                                             <?php }?>
                                         </tbody>
                                     </table>
-                                    </table>
+                                    <div class="row">
+                                            <div class="col-md-8 bg-secondary">
+                                                <h5 class="text-white text-left p-2">MONTANT TOTAL ACHATS</h5>
+                                            </div>
+                                            <div class="col-md-4 bg-secondary">
+                                                <h5 class="text-white text-left p-2"><?=$achat?> $</h5>
+                                            </div>
+                                        </div>
 								</div>
 							</div>
 						</div>
@@ -65,13 +91,22 @@
 
 				</div>
 			</main>
+<script>
+    $(document).ready(function(){
+        var achat = $('#achat').DataTable({
+            "lengthMenu": [[50, 100, -1], [50, 100, "All"]],
+            responsive: true
+        });
 
+        new $.fn.dataTable.FixedHeader( achat );
+    });
+</script>
 			<footer class="footer">
 				<div class="container-fluid">
 					<div class="row text-muted">
 						<div class="col-6 text-start">
 							<p class="mb-0">
-								&copy; <a class="text-muted" href="" target="_blank"><strong>Backend of LMK Kalala</strong></a><a class="text-muted" href="https://adminkit.io/" target="_blank"><strong> & AdminKit</strong></a>
+								&copy; <a class="text-muted" href="" target="_blank"><strong>LMK Kalala</strong></a><a class="text-muted" href="https://adminkit.io/" target="_blank"><strong> & AdminKit</strong></a>
 							</p>
 						</div>
 						<!-- <div class="col-6 text-end">
@@ -103,7 +138,9 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalToggleLabel2">MODIFIER ACHAT</h5>
-        <button type="button" style="background-color: transparent; border: none;"  id="close_validation" data-bs-dismiss="myModal" aria-label="Close"><span style="font-size:20px;"><i class="icon-copy ion-ios-close"></i></span></button>
+        <button type="button" class="btn shadow-none" data-bs-dismiss="modal" aria-label="Close">
+            <span style="font-size:20px;"><i class="align-middle" data-feather="minus-circle"></i></span>
+        </button>
       </div>
       <div class="modal-body">
         
@@ -117,25 +154,25 @@
 
                 <div class="form-group">
                     <label>Quantite En Stock</label>
-                    <input type="number" name="update_article_quantite_s" id="update_article_quantite_s" autocomplete="false" class="form-control" required="" minlength="2">
+                    <input type="number" step="any" name="update_article_quantite_s" id="update_article_quantite_s" autocomplete="false" class="form-control" required="" minlength="2">
                 </div>
 
 				<div class="row">
                     <div class="col-6 form-group">
                         <label>PAU</label>
-                        <input type="number" name="update_article_pau" id="update_article_pau" autocomplete="false" class="form-control" required="" minlength="2" placeholder="">
+                        <input type="number" step="any" name="update_article_pau" id="update_article_pau" autocomplete="false" class="form-control" required="" minlength="2" placeholder="">
                     </div>
 
                     <div class="col-6 form-group">
                         <label>PAT</label>
-                        <input type="number" name="update_article_pat" id="update_article_pat" autocomplete="false" class="form-control" required="" minlength="2" placeholder="">
+                        <input type="number" step="any" name="update_article_pat" id="update_article_pat" autocomplete="false" class="form-control" required="" minlength="2" placeholder="">
                     </div>
                 </div>
 
 				<div class="row">
                     <div class="col-6 form-group">
                         <label>PVU</label>
-                        <input type="number" name="update_article_pvu" id="update_article_pvu" autocomplete="false" class="form-control" required="" minlength="2" placeholder="">
+                        <input type="number" step="any" name="update_article_pvu" id="update_article_pvu" autocomplete="false" class="form-control" required="" minlength="2" placeholder="">
                     </div>
                     <div class="col-6 form-group">
                         <label>Date</label>

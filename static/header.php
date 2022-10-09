@@ -19,10 +19,60 @@
 	<link href="<?=base_url('static/')?>css/app.css" rel="stylesheet">
 	<link href="<?=base_url('static/')?>css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-	<script src="<?=base_url('static/')?>js/jquery.js"></script>
+
+	<link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+	<link href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap.min.css">
+	<link href="https://cdn.datatables.net/fixedheader/3.2.4/css/fixedHeader.bootstrap.min.css">
+	<link href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
+
+	<!-- <script type="text/javascript" src="<?=base_url('static/js/jquery.js')?>"></script> -->
+	
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/fixedheader/3.2.4/js/dataTables.fixedHeader.min.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.3.0/js/responsive.bootstrap.min.js"></script>
+
 </head>
 
 <script>
+	$(document).ready(function(){
+	filter_search();
+
+	$('#taux_fild').hide();
+
+	$('#money').on('change',function(){
+		var money = $('#money').val();
+		if(money == 'FC'){
+			$('#money_fild').attr('class','col-md-4 form-group');
+			$('#taux_fild').show();
+		}else{
+			$('#money_fild').attr('class','col-md-8 form-group')
+			$('#taux_fild').hide();
+		}
+	});
+	$('#dates').on('change',function(){
+        var dates = $('#dates').val();
+        $('input[name=date]').attr('type',''+dates+'');
+		$('input[name=date_2]').attr('type',''+dates+'');
+    });
+	});
+
+	function filter_search(x = ''){
+		if(x != ''){
+			var filter = x.value;
+		}else{
+			var filter = $('#FilterDate').val();
+		}
+			if (filter == '0' || filter == '1') {
+				$("#date_start").show();
+				$("#date_end").hide();
+			} else {
+				$("#date_start").show();
+				$("#date_end").show();
+			}
+	}
 		function show(text){
 			alert(text);
 		}
@@ -89,9 +139,24 @@
 					success: function(data){
 						$('button').prop('disabled',false);
 						if(data.status == 'success'){
-							$('#'+origin+'')[0].reset();
-							$('.modal').modal('hide');
+							 $('#'+origin+'')[0].reset();
+							// $('.modal').modal('hide');
 							show(data.info);
+							if (origin == 'sell_article') {
+								$('#sell_article_quantite_s').val(data.stock);
+							}else if(origin == 'appro_article'){
+								$('#appro_article_quantite_s').val(data.stock);
+							}
+
+							if (origin == 'sell_article') {
+								// do nothing
+							}else if (origin == 'appro_article') {
+								// do nothing
+							}else{
+								setTimeout(() => {
+									location.reload();
+								}, 3000);
+							}
 						}else{
 							show(data.info);
 						}
@@ -101,28 +166,50 @@
 					}
 			});
 		}
-				setTimeout(() => {
-					location.reload();
-				}, 3000);
-		}
+	}
 
-		function  GetModalData(data,method) {
+		function  GetModalData(data,method,origin = '') {
             $.ajax({
-                url: '<?=base_url('Panel/modalShowData/')?>'+method+'',
+                url: '<?=base_url('Panel/modalShowData/')?>'+method+'/'+origin,
                 type:'POST',
                 data: {"data": data},
                 dataType: 'json',
                 success: function(response){
 					if(response.modal == 'approvisionner'){
-						$('#appro_article_article').val(response.data.article);
-						$('#appro_article_quantite_s').val(response.data.quantite_stock);
-						$('#appro_article_article_id').val(response.data.article_id);
+						if(origin == 'search'){
+							$('#selector_achat').show();
+							$('#selector_achat').html(' ');
+							$('#selector_achat').html(response.data)
+						}else{
+							if (origin == 'find') {
+								$('#selector_achat').hide();
+							}
+							$('#appro_article_article').val(response.data.article);
+							$('#appro_article_quantite_s').val(response.data.quantite_stock);
+							$('#appro_article_article_id').val(response.data.article_id);
+							$('#appro_article_pau').val(response.data.pa);
+						}
+						
 					}else if (response.modal == 'vendre'){
-						$('#sell_article_article').val(response.data.article);
-						$('#sell_article_quantite_s').val(response.data.quantite_stock);
-						$('#sell_article_article_id').val(response.data.article_id);
-						$('#sell_pa').text(response.data.pa);
-						$('#sell_pau').val(response.data.pa);
+						if(origin == 'search'){
+							$('#selector_vendre').show();
+							$('#selector_vendre').html(' ');
+							$('#selector_vendre').html(response.data)
+						}else{
+							if (origin == 'find') {
+								$('#selector_vendre').hide();
+							}
+							$('#sell_article_article').val(response.data.article);
+							if(response.data.quantite_stock < 5){
+								$('#sell_article_quantite_s').css('color','red');
+							}else{
+								$('#sell_article_quantite_s').css('color','black');
+							}
+							$('#sell_article_quantite_s').val(response.data.quantite_stock);
+							$('#sell_article_article_id').val(response.data.article_id);
+							$('#sell_pa').text(response.data.pa);
+							$('#sell_pau').val(response.data.pa);
+						}
 					}else if(response.modal == 'UpdateArticle'){
 						$('#modify_article_article').val(response.data.article);
 						$('#modify_article_article_id').val(response.data.article_id);
@@ -175,45 +262,45 @@
                $('form')[0].reset();
             });
 
-			$('#appro_article_pau').on('change',function(){
+			$('#appro_article_pau').on('input',function(){
 				var pau = $('#appro_article_pau').val();
 				var other = $('#appro_article_other_s').val();
 				var qte = $('#appro_article_quantite_a').val();
-				var pat = (pau * qte) + parseInt(other);
+				var pat = (pau * qte) + parseFloat(other);
 				$('#appro_article_pat').val(pat);
 			});
 
-			$('#appro_article_pat').on('change',function(){
+			$('#appro_article_pat').on('input',function(){
 				var pat = $('#appro_article_pat').val();
 				var other = $('#appro_article_other_s').val();
 				var qte = $('#appro_article_quantite_a').val();
-				pau = (parseInt(pat) + parseInt(other)) / parseInt(qte);
+				pau = (parseFloat(pat) + parseFloat(other)) / parseFloat(qte);
 				$('#appro_article_pau').val(pau);
 			});
 
-			$('#appro_article_quantite_a').on('change',function(){
+			$('#appro_article_quantite_a').on('input',function(){
 				var qte = $('#appro_article_quantite_a').val();
 				var pau = $('#appro_article_pau').val();
 				var other = $('#appro_article_other_s').val();
-				pat = (parseInt(pau) * parseInt(qte)) + parseInt(other);
+				pat = (parseFloat(pau) * parseFloat(qte)) + parseFloat(other);
 				$('#appro_article_pat').val(pat);
 			});
 
-			$('#appro_article_other_s').on('change',function(){
+			$('#appro_article_other_s').on('input',function(){
 				var pat = $('#appro_article_pat').val();
 				var other = $('#appro_article_other_s').val();
-				pat = (parseInt(pat) + parseInt(other));
+				pat = (parseFloat(pat) + parseFloat(other));
 				$('#appro_article_pat').val(pat);
 			});
 			
 
-			$('#sell_article_quantite_v, #sell_article_pvu, #sell_article_pvt').on('change',function(){
+			$('#sell_article_quantite_v, #sell_article_pvu, #sell_article_pvt').on('input',function(){
 				if(parseInt($('#sell_article_quantite_v').val()) > parseInt($('#sell_article_quantite_s').val())){
 					show('Stock Insuffisant');
 					$('#sell_article_quantite_v').val('')
 				}
 
-				var pvt = parseInt($('#sell_article_quantite_v').val()) * parseInt($('#sell_article_pvu').val());
+				var pvt = parseFloat($('#sell_article_quantite_v').val()) * parseFloat($('#sell_article_pvu').val());
 				$('#sell_article_pvt').val(pvt);
 			});
 
@@ -341,6 +428,12 @@
 					<li class="sidebar-item <?=$dashboard?>">
 						<a class="sidebar-link" href="<?=base_url('Panel/pages/')?>dashboard">
               <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Accueil</span>
+            </a>
+					</li>
+
+					<li class="sidebar-item <?=$sell_jour?>">
+						<a class="sidebar-link" href="<?=base_url('Panel/pages/')?>vente_jour">
+              <i class="align-middle" data-feather="book-open"></i> <span class="align-middle">Vente Journalier</span>
             </a>
 					</li>
 
@@ -554,7 +647,7 @@
 								<!-- <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="pie-chart"></i> Analytics</a> -->
 								<div class="dropdown-divider"></div>
 								<!-- <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="settings"></i> Settings & Privacy</a> -->
-								<a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="help-circle"></i> Help Center</a>
+								<a class="dropdown-item" target="black" href="https://lucienkalala.github.io/Portfolio"><i class="align-middle me-1" data-feather="help-circle"></i> Help Center</a>
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="<?=base_url('Panel/Logout')?>"><i class="align-middle me-1" data-feather="log-out"></i> Deconnnexion</a>
 							</div>
@@ -562,3 +655,215 @@
 					</ul>
 				</div>
 			</nav>
+
+
+			<div class="modal fade"  id="vendre" aria-hidden="true" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-md modal-fullscreen-sm-down modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalToggleLabel2">VENDRE ARTICLE</h5>
+        <button type="button" class="btn shadow-none" data-bs-dismiss="modal" aria-label="Close">
+            <span style="font-size:20px;"><i class="align-middle" data-feather="minus-circle"></i></span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="modal-validation-body">
+            <form class="col-md-12" id="sell_article" autofill="false" autocomplete="off" autofill="false">
+                <div class="row">
+                    <div class="col-6 form-group">
+                        <label>Date</label>
+                        <input type="date" name="sell_article_date" id="sell_article_date" value="<?=date('Y-m-d')?>" autocomplete="false" class="form-control" required="">
+                    </div>
+                    <div class="col-6 form-group">
+                        <label>Article</label>
+                        <input type="text" name="sell_article_article" id="sell_article_article" autocomplete="false" class="form-control" oninput="GetModalData(this.value,'vendre','search')" minlength="2" placeholder="">
+                        <input type="hidden" name="sell_article_article_id" id="sell_article_article_id" autocomplete="false" class="form-control" readonly="" minlength="2" placeholder="">
+                    </div>
+                </div>
+
+                <div class="row mt-1 mb-1" id="selector_vendre" style="display:none;">
+                    <div class="col-12 form-group mt-1 mb-1">
+                        <select name="choose_article_vendre" id="choose_article_vendre" class="form-control" onchange="GetModalData(this.value,'vendre','find')">
+                                <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-4 form-group">
+                        <label>Le PA est <stron id="sell_pa"></strong> $</label>
+                        <input type="number" step="any" name="sell_pau" id="sell_pau"  autocomplete="false" class="form-control" readonly="" >
+                    </div>
+                    <div class="col-4 form-group">
+                        <label>Quantite En Stock</label>
+                        <input type="number" step="any" name="sell_article_quantite_s" id="sell_article_quantite_s" autocomplete="false" class="form-control" readonly="">
+                    </div>
+
+                    <div class="col-4 form-group">
+                        <label>Quantite Vendu</label>
+                        <input type="number" step="any" name="sell_article_quantite_v" id="sell_article_quantite_v" autocomplete="false" class="form-control" value="1" required="">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 form-group">
+                        <label>PVU</label>
+                        
+                        <input type="number" step="any" lang="fr_FR" name="sell_article_pvu" id="sell_article_pvu" autocomplete="false" value="" class="form-control" required="">
+                    </div>
+
+                    <div class="col-6 form-group">
+                        <label>PVT</label>
+                        <input type="number" step="any" name="sell_article_pvt" id="sell_article_pvt" autocomplete="false" class="form-control" readonly="" value="0.0" required="">
+                    </div>
+                </div>
+
+				<div class="form-group">
+                    <label>Description</label>
+                    <textarea name="sell_article_description" id="sell_article_description" autocomplete="false" class="form-control" required="">Cash</textarea>
+                </div>
+                <div class="form-group mt-2">
+                    <button type="submit"  class="btn btn-secondary w-100">
+						<!-- <div class="spinner-border d-none-r" id="load_enrg_3" role="status"></div> -->
+						Confirmer
+					</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade"  id="approvisionner" aria-hidden="true" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-md modal-fullscreen-sm-down modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalToggleLabel2">APPROVISIONNEMENT ARTICLE</h5>
+        <button type="button" class="btn shadow-none" data-bs-dismiss="modal" aria-label="Close">
+            <span style="font-size:20px;"><i class="align-middle" data-feather="minus-circle"></i></span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <div id="modal-validation-body">
+            <form class="col-md-12" id="appro_article" autofill="false" autocomplete="off" autofill="false">
+                <div class="row">
+                    <div class="col-6 form-group">
+                        <label>Date</label>
+                        <input type="date" name="appro_article_date" id="appro_article_date" value="<?=date('Y-m-d')?>" autocomplete="false" class="form-control" required="">
+                    </div>
+                    <div class="col-6 form-group">
+                        <label>Article</label>
+                        <input type="text" name="appro_article_article" id="appro_article_article" autocomplete="false" class="form-control" oninput="GetModalData(this.value,'approvisionner','search')" minlength="2" placeholder="">
+                        <input type="hidden" name="appro_article_article_id" id="appro_article_article_id" autocomplete="false" class="form-control" minlength="2" placeholder="">
+                    </div>
+                </div>
+
+                <div class="row mt-1 mb-1" id="selector_achat" style="display:none;">
+                    <div class="col-12 form-group mt-1 mb-1">
+                        <select name="choose_article" id="choose_article" class="form-control" onchange="GetModalData(this.value,'approvisionner','find')">
+                                <option onchange="GetModalData(this.value,'approvisionner','find')" value="">LQ 160 x 20</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6 form-group">
+                        <label>Quantite En stock</label>
+                        <input type="number" step="any" name="appro_article_quantite_s" id="appro_article_quantite_s" autocomplete="false" class="form-control" readonly="" minlength="2">
+                    </div>
+
+                    <div class="col-6 form-group">
+                        <label>Quantite Acheter</label>
+                        <input type="number" step="any" name="appro_article_quantite_a" id="appro_article_quantite_a" autocomplete="false" class="form-control" required="" minlength="2">
+                    </div>
+                </div>
+
+				<div class="row">
+                    <div class="col-4 form-group">
+                        <label>PAU</label>
+                        <input type="number" step="any" name="appro_article_pau" id="appro_article_pau" autocomplete="false" class="form-control" required="" minlength="2" placeholder="">
+                    </div>
+
+                    <div class="col-4 form-group d-none">
+                        <label>AUTRE DEPENSES</label>
+                        <input type="number" step="any" name="appro_article_other_s" id="appro_article_other_s" value="0" autocomplete="false" readonly="" class="form-control" minlength="2" placeholder="">
+                    </div>
+
+                    <div class="col-4 form-group">
+                        <label>PVU</label>
+                        <input type="number" step="any" name="appro_article_pvu" id="appro_article_pvu" autocomplete="false" class="form-control" value="0"  required="" minlength="2" placeholder="">
+                    </div>
+
+                    <div class="col-4 form-group">
+                        <label>PAT</label>
+                        <input type="number" step="any" name="appro_article_pat" id="appro_article_pat" autocomplete="false" class="form-control" required="" minlength="2" placeholder="">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="appro_article_description" id="appro_article_description" autocomplete="false" class="form-control" required="" value="Pas de commentaire" min="5">Pas de commentaire</textarea>
+                </div>
+
+                <div class="form-group mt-2">
+                    <button type="submit" class="btn btn-secondary w-100 text-white">
+						Confirmer
+					</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade"  id="depense" aria-hidden="true" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-md modal-fullscreen-sm-down modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalToggleLabel2">NOUVELLE DEPENSE</h5>
+        <button type="button" class="btn shadow-none" data-bs-dismiss="modal" aria-label="Close">
+            <span style="font-size:20px;"><i class="align-middle" data-feather="minus-circle"></i></span>
+        </button>
+      </div>
+      <div class="modal-body">   
+        <div id="modal-validation-body">
+            <form class="col-md-12" id="new_depense" autofill="false" autocomplete="off" autofill="false">
+				<div class="form-group">
+                    <label>Date</label>
+                    <input type="date" name="new_depense_date" id="new_depense_date" value="<?=date('Y-m-d',time())?>" autocomplete="false" class="form-control" required="">
+                </div>
+                <div class="row">
+					<div id="money_fild" class="col-md-8 form-group">
+						<label>Montant</label>
+						<input type="number" step="any" name="new_depense_amount" id="new_depense_amount" autocomplete="false" class="form-control" required="" minlength="10" placeholder="">
+					</div>
+					<div class="col-md-4 form-group">
+						<label>Monnais</label>
+						<select name="money" id="money" class="form-control">
+							<option value="USD">USD</option>
+							<option value="FC">FC</option>
+						</select>
+					</div>
+					<div class="col-md-4 form-group" id="taux_fild" sytle="display:none;">
+						<label>Taux de change</label>
+						<input type="number" step="any" name="taux" id="taux" value="2070" autocomplete="false" class="form-control" required="" minlength="10" placeholder="">
+					</div>
+				</div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea  name="new_depense_description" id="new_depense_description" autocomplete="false" class="form-control" required="" minlength="2">A manger</textarea>
+                </div>
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-secondary w-100">
+						<!-- <div class="spinner-border d-none-r" id="load_enrg_3" role="status"></div> -->
+						Confirmer
+					</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

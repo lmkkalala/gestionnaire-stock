@@ -24,6 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 $config['base_url'] = 'http://localhost/gestionnaire-stock/';
+//$config['base_url'] = 'https://gestionstock34.000webhostapp.com/';
 
 /*
 |--------------------------------------------------------------------------

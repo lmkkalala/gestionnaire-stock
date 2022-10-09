@@ -1,28 +1,39 @@
 <main class="content">
 				<div class="container-fluid p-0">
+				<h1 class="h3 mb-3"><button class="btn bg-secondary text-white shadow-none" onclick="history.back()"><i class="align-middle display-3" data-feather="chevron-left"></i></button> LES OPERATIONS JOURNALIERS</h1>
                 <div class="row">
-                        <div class="col-12 col-md-8 col-xxl-3 d-flex order-2 order-xxl-3">
+                        <div class="col-12 col-md-6 col-xxl-3 d-flex order-2 order-xxl-3">
 							<div class="card flex-fill w-100">
 								<div class="card-header">
-									<div class="row">
-                                        <div class="col-md-6 mt-3">
-                                            <h5 class="card-title mb-0">Vente Par jour</h5>
+									<div class="row">   
+										<div class="col-md-4 mt-3">
+                                            <h5 class="card-title mb-0">Ventes</h5>
                                         </div>
-                                        <div class="col-md-6 mt-3">
-                                            <select class="form-control shadow-none text-secondary">
-                                                <option value="1">Janvier</option>
-                                                <option value="2">Fevrier</option>
-                                                <option value="3">Mars</option>
-                                                <option value="4">Avril</option>
-                                                <option value="5">Mai</option>
-                                                <option value="6">Juin</option>
-                                                <option value="7">Juiller</option>
-                                                <option value="8">Aout</option>
-                                                <option value="9">Septembre</option>
-                                                <option value="10">Octobre</option>
-                                                <option value="11">Novembre</option>
-                                                <option value="12">Decembre</option>
-                                            </select>
+                                        <div class="col-md-8 mt-3">
+											<form method="POST" id="vente_filter">
+												<div class="row">
+													<div class="col-md-6">
+														<select class="form-control shadow-none text-secondary" id="val_id">
+															<option value="<?=$m?>"><?=$m?></option>
+															<option value="01">Janvier</option>
+															<option value="02">Fevrier</option>
+															<option value="03">Mars</option>
+															<option value="04">Avril</option>
+															<option value="05">Mai</option>
+															<option value="06">Juin</option>
+															<option value="07">Juillet</option>
+															<option value="08">Aout</option>
+															<option value="09">Septembre</option>
+															<option value="10">Octobre</option>
+															<option value="11">Novembre</option>
+															<option value="12">Decembre</option>
+														</select>
+													</div>
+													<div class="col-md-6">
+														<input type="text" class="form-control shadow-none text-secondary" placeholder="2022" value="<?=$y?>"  id="val_year">
+													</div>
+												</div>
+											</form>
                                         </div>
                                     </div>
 								</div>
@@ -31,7 +42,107 @@
 										<div class="row">
                                             <div class="col-12">
                                                 <table class="table mb-0">
-                                                    
+													<thead class="bg-secondary text-white">
+														<th>Article</th>
+														<th>Date</th>
+														<th>Quantite</th>
+														<th>Pvu</th>
+														<th>Pvt</th>
+													</thead>
+													<tbody>
+													<?php $t = 0; foreach ($sell_day as $key => $value) { $t = $t + $value['pvt']; ?>
+														<tr>
+															<td><?=$value['article']?></td>
+															<td><?=$value['sold_date']?></td>
+															<td><?=$value['quantite_vendu']?></td>
+															<td><?=$value['pvu']?> $</td>
+															<td><?=$value['pvt']?> $</td>
+														</tr>
+													<?php } ?>
+													<tr class="bg-secondary">
+														<td class="fw-bold text-white">Total</td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td class="fw-bold text-white"><?=$t.' $'?></td>
+													</tr>
+													</tbody>
+                                                </table>
+                                            </div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-12 col-md-6 col-xxl-3 d-flex order-2 order-xxl-3">
+							<div class="card flex-fill w-100">
+								<div class="card-header">
+									<div class="row">   
+										<div class="col-md-4 mt-3">
+                                            <h5 class="card-title mb-0">Approvisions</h5>
+                                        </div>
+                                        <div class="col-md-8 mt-3">
+											<form method="POST" id="vente_filter_appro">
+												<div class="row">
+													<div class="col-md-6">
+														<select class="form-control shadow-none text-secondary" id="val_id_appro">
+															<option value="<?=$m?>"><?=$m?></option>
+															<option value="01">Janvier</option>
+															<option value="02">Fevrier</option>
+															<option value="03">Mars</option>
+															<option value="04">Avril</option>
+															<option value="05">Mai</option>
+															<option value="06">Juin</option>
+															<option value="07">Juillet</option>
+															<option value="08">Aout</option>
+															<option value="09">Septembre</option>
+															<option value="10">Octobre</option>
+															<option value="11">Novembre</option>
+															<option value="12">Decembre</option>
+														</select>
+													</div>
+													<div class="col-md-6">
+														<input type="text" class="form-control shadow-none text-secondary" placeholder="2022" value="<?=$y?>"  id="val_year_appro">
+													</div>
+												</div>
+											</form>
+                                        </div>
+                                    </div>
+								</div>
+								<div class="card-body d-flex">
+									<div class="align-self-center w-100">
+										<div class="row">
+                                            <div class="col-12">
+                                                <table class="table mb-0">
+													<thead class="bg-secondary text-white">
+														<th>Article</th>
+														<th>Date</th>
+														<th>Quantite</th>
+														<th>Pau</th>
+														<th>Pat</th>
+													</thead>
+													<tbody>
+													<?php $t = 0; foreach ($appro_day as $key => $value) { 
+														$t = $t + $value['quantite_acheter'] * $value['pa']; 
+														if ($value['quantite_acheter'] != 0) {
+													?>
+														<tr>
+															<td><?=$value['article']?></td>
+															<td><?=$value['appr_date']?></td>
+															<td><?=$value['quantite_acheter']?></td>
+															<td><?=$value['pa']?> $</td>
+															<td><?=$value['pat']?> $</td>
+														</tr>
+													<?php }} ?>
+													<tr class="bg-secondary">
+														<td class="fw-bold text-white">Total</td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td class="fw-bold text-white"><?=$t.' $'?></td>
+													</tr>
+													</tbody>
                                                 </table>
                                             </div>
 										</div>
@@ -41,7 +152,7 @@
 						</div>
                     </div>
 					<div class="row">
-						<div class="col-12 col-md-8 col-xxl-3 d-flex order-2 order-xxl-3">
+						<div class="col-12 col-md-6 col-xxl-3 d-flex order-2 order-xxl-3">
 							<div class="card flex-fill w-100">
 								<div class="card-header">
 									<h5 class="card-title mb-0">MONTANT VENDU PAR MOIS</h5>
@@ -72,11 +183,8 @@
 								</div>
 							</div>
 						</div>
-						
-					</div>
 
-					<div class="row">
-						<div class="col-12 col-md-8 col-xxl-12 d-flex">
+						<div class="col-12 col-md-6 col-xxl-12 d-flex">
 							<div class="card flex-fill w-100">
 								<div class="card-header">
 									<h5 class="card-title mb-0">QUANTITE VENDU PAR MOIS</h5>
@@ -97,8 +205,8 @@
 				<div class="container-fluid">
 					<div class="row text-muted">
 						<div class="col-6 text-start">
-							<p class="mb-0">
-								&copy; <a class="text-muted" href="" target="_blank"><strong>Backend of LMK Kalala</strong></a><a class="text-muted" href="https://adminkit.io/" target="_blank"><strong> & AdminKit</strong></a>
+						<p class="mb-0">
+								&copy; <a class="text-muted" href="https://lucienkalala.github.io/Portfolio" target="_blank"><strong>LMK Kalala</strong></a><a class="text-muted" href="https://adminkit.io/" target="_blank"><strong> & AdminKit</strong></a>
 							</p>
 						</div>
 					</div>
@@ -119,7 +227,7 @@
 
 			$.ajax({
 					type:'POST',
-					url:'<?=base_url('Panel/money')?>',
+					url:'<?=base_url('Panel/money/'.$p_id.'')?>',
 					dataType:'json',	
 					success: function(data){
 						$('button').prop('disabled',false);
@@ -184,11 +292,24 @@
 		});
 	</script>
 	<script>
+
+		$('#vente_filter').on('change',function(){
+			id = $('#val_id').val();
+			val_year = $('#val_year').val();
+			window.location = "<?=base_url('Panel/pages/details/'.$p_id.'/')?>"+id+"/"+val_year+"";
+		});
+
+		$('#vente_filter_appro').on('change',function(){
+			id = $('#val_id_appro').val();
+			val_year = $('#val_year_appro').val();
+			window.location = "<?=base_url('Panel/pages/details/'.$p_id.'/')?>"+id+"/"+val_year+"";
+		});
+
 		document.addEventListener("DOMContentLoaded", function() {
 			// Pie chart
 			$.ajax({
 				type:'POST',
-					url:'<?=base_url('Panel/bestsoldProduct')?>',
+					url:'<?=base_url('Panel/bestsoldProduct/'.$p_id.'/'.$y.'')?>',
 					dataType:'json',	
 					success: function(data){
 						$('button').prop('disabled',false);
@@ -235,7 +356,7 @@
 			// Bar chart
 			$.ajax({
 					type:'POST',
-					url:'<?=base_url('Panel/number/')?>',
+					url:'<?=base_url('Panel/number/'.$p_id.'/'.$y.'')?>',
 					dataType:'json',	
 					success: function(data){
 						$('button').prop('disabled',false);

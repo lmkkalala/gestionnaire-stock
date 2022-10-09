@@ -5,7 +5,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class DataHandle extends CI_Model {
 
     public function loadData($table){
-		$this->db->order_by('id','desc');
+		if ($table == 'article') {
+			$this->db->order_by('id');
+			$this->db->order_by('article');
+		}else{
+			$this->db->order_by('id','desc');
+		}
+		
 		return $this->db->get($table)->result_array();
 	}
 
@@ -37,7 +43,7 @@ class DataHandle extends CI_Model {
 		return $this->db->get($table)->result_array();
 	}
 
-	public function loadDataWhere($table,$conditon=array()){
+	public function loadDataWhere($table, $conditon= ''){
 		return $this->db->get_where($table,$conditon)->result_array();
 	}
 
@@ -51,8 +57,30 @@ class DataHandle extends CI_Model {
 		return $v;
 	}
 
+	public function VenteMoneywhere($conditon,$conditon2 = array()){
+		$this->db->like(array('sold_date'=>$conditon));
+		$this->db->where($conditon2);
+		$vente = $this->db->get('vente')->result_array();
+		$v= 0;
+		foreach($vente as $key => $rows){
+			$v = $v + ($vente[$key]['pvu'] * $vente[$key]['quantite_vendu']);
+		}
+		return $v;
+	}
+
 	public function VenteAmount($conditon){
 		$this->db->like(array('sold_date'=>$conditon));
+		$vente = $this->db->get('vente')->result_array();
+		$n_vente = 0;
+		foreach($vente as $key => $rows){
+			$n_vente = $n_vente + $vente[$key]['quantite_vendu'];
+		}
+		return $n_vente;
+	}
+
+	public function VenteAmountwhere($conditon,$conditon2 = array()){
+		$this->db->like(array('sold_date'=>$conditon));
+		$this->db->where($conditon2);
 		$vente = $this->db->get('vente')->result_array();
 		$n_vente = 0;
 		foreach($vente as $key => $rows){

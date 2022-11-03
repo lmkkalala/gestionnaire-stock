@@ -43,6 +43,10 @@
 	$('#taux_fild').hide();
 
 	$('#money').on('change',function(){
+		data_money();
+	});
+	data_money()
+	function data_money(){
 		var money = $('#money').val();
 		if(money == 'FC'){
 			$('#money_fild').attr('class','col-md-4 form-group');
@@ -51,7 +55,8 @@
 			$('#money_fild').attr('class','col-md-8 form-group')
 			$('#taux_fild').hide();
 		}
-	});
+	}
+
 	$('#dates').on('change',function(){
         var dates = $('#dates').val();
         $('input[name=date]').attr('type',''+dates+'');
@@ -152,6 +157,8 @@
 								// do nothing
 							}else if (origin == 'appro_article') {
 								// do nothing
+							}else if(origin == 'new_depense'){
+								// do nothing
 							}else{
 								setTimeout(() => {
 									location.reload();
@@ -232,6 +239,7 @@
 						$('#update_sold_description').val(response.data.description);
 					}else if(response.modal == 'UpdateApprovisionner'){
 						$('#update_article_article').val(response.data.article);
+						$('#update_article_quantite_a').val(response.data.quantite_acheter);
 						$('#update_article_quantite_s').val(response.data.quantite_stock);
 						$('#update_article_pau').val(response.data.pa);
 						$('#update_article_pat').val(response.data.pat);
@@ -842,13 +850,13 @@
 					<div class="col-md-4 form-group">
 						<label>Monnais</label>
 						<select name="money" id="money" class="form-control">
-							<option value="USD">USD</option>
 							<option value="FC">FC</option>
+							<option value="USD">USD</option>
 						</select>
 					</div>
 					<div class="col-md-4 form-group" id="taux_fild" sytle="display:none;">
 						<label>Taux de change</label>
-						<input type="number" step="any" name="taux" id="taux" value="2070" autocomplete="false" class="form-control" required="" minlength="10" placeholder="">
+						<input type="number" step="any" name="taux" id="taux" value="2100" autocomplete="false" class="form-control" required="" minlength="10" placeholder="">
 					</div>
 				</div>
                 <div class="form-group">

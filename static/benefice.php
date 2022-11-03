@@ -9,14 +9,14 @@
                                         <!-- <h5 class="card-title mb-1">Filter par date.</h5> -->
                                         <form method="post">
                                             <div class="row mt-1">
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <select name="" class="form-control shadow-none fw-bold" id="dates">
                                                         <option value="date">Annee-Mois-Jour</option>
                                                         <option value="month">Annee-Mois</option>
                                                         <option value="number">Annee</option>
                                                     </select>
                                                 </div>
-                                                <div class="col-md-2 mt-1">
+                                                <div class="col-md-4 mt-1">
                                                     <input type="date" name="date" class="form-control shadow-none" placeholder="2022" value="<?=date('d-m-Y',time())?>">
                                                 </div>
                                                 <div class="col-md-2 mt-1">
@@ -30,8 +30,11 @@
                                                         $color = 'info';
                                                     }
                                                 ?>
-                                                <div class="col-md-3 mt-1">
-									                <input type="text" readonly=""  class="form-control text-info shadow-none fw-bold" value="BENEFICE: <?php echo $benefice?> $">
+                                                <div class="col-md-4 mt-1">
+									                <input type="text" readonly=""  class="form-control text-info shadow-none fw-bold" value="BENEFICE BRUT: <?php echo $benefice?> $">
+                                                </div> 
+                                                <div class="col-md-4 mt-1">
+									                <input type="text" readonly=""  class="form-control text-success shadow-none fw-bold" value="BENEFICE NET: <?php echo $benefice - $spent?> $">
                                                 </div> 
                                             </div>
                                         </form>

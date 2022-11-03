@@ -44,6 +44,22 @@ class DataHandle extends CI_Model {
 	}
 
 	public function loadDataWhere($table, $conditon= ''){
+		if ($table == 'achat') {
+			$this->db->join('user','user.id = achat.user_id');
+		}else if ($table == 'vente') {
+			$this->db->join('user','user.id = vente.user_id');
+		}else if ($table == 'article') {
+			$this->db->join('user','user.id = article.user_id');
+		}else if ($table == 'depense') {
+			$this->db->join('user','user.id = depense.user_id');
+		}else if ($table == 'journal') {
+			$this->db->join('user','user.id = journal.user_id');
+		}else if ($table == 'user') {
+			//$this->db->join('user','user.id = user.user_id');
+		}else if ($table == 'vue_global') {
+			$this->db->join('user','user.id = vue_global.user_id'); 
+		}
+		
 		return $this->db->get_where($table,$conditon)->result_array();
 	}
 

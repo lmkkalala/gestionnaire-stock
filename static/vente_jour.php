@@ -73,7 +73,14 @@
                                                 <td class="text-<?=$color?> fw-bold"><?=$list_vente_today[$key]['quantite_stock']?></td>
                                                 <td><?=$list_vente_today[$key]['pvu']?> $</td>
                                                 <td><?=$list_vente_today[$key]['pvt']?> $</td>
-                                                <td class="fw-bold text-<?=$color_description?>" width="100"><?=$list_vente_today[$key]['description']?></td>
+                                                <td class="fw-bold text-<?=$color_description?>" width="100">
+                                                    <?=$list_vente_today[$key]['description']?>
+                                                <?php 
+                                                if ($list_vente_today[$key]['user_id'] != '') {
+                                                   // echo ' Opération effectuer par'.$list_vente_today[$key]['name'];
+                                                }
+                                                ?> 
+                                                </td>
                                                 <td>
                                                     <button class="btn shadow-none bg-secondary text-white mt-1" data-bs-target="#UpdateVente" data-bs-toggle="modal" data-id="<?=$list_vente_today[$key]['vente_id']?>"><i class="align-middle" data-feather="edit"></i> Modifier</button>
                                                 </td>
@@ -82,7 +89,7 @@
                                                 </td>
                                             </tr>
                                         <?php }?>
-                                                <tr class="bg-secondary">
+                                                <tr class="bg-success">
                                                     <td><button class="btn fw-bold shadow-none bg-secondary text-white"><i class="align-middle" data-feather="plus-circle"></i></button></td>
                                                     <td class="fw-bold text-white">Total Vendu</td>
                                                     <td></td>
@@ -92,7 +99,31 @@
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td class="fw-bold text-info fs-4"><?=$vente_lelo?> $</td>
+                                                    <td class="fw-bold text-white fs-4"><?=$vente_lelo?> $</td>
+                                                </tr>
+                                                <tr class="bg-danger">
+                                                    <td><button class="btn fw-bold shadow-none bg-secondary text-white"><i class="align-middle" data-feather="plus-circle"></i></button></td>
+                                                    <td class="fw-bold text-white">Depense</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td class="fw-bold text-white fs-4"><?=$spent_today?> $</td>
+                                                </tr>
+                                                <tr class="bg-info">
+                                                    <td><button class="btn fw-bold shadow-none bg-secondary text-white"><i class="align-middle" data-feather="plus-circle"></i></button></td>
+                                                    <td class="fw-bold text-white" width="200">Reste en caisse</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td class="fw-bold text-white fs-4"><?=$vente_lelo - $spent_today?> $</td>
                                                 </tr>
                                         </tbody>
                                     </table>

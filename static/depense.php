@@ -37,11 +37,11 @@
                                                     }
                                                 ?>
                                                 <!-- <div class="col-md-3 mt-1">
-									                <input type="text" readonly=""  class="form-control text-info shadow-none" value="BENEFICE: <?php echo $benefice - $spent;?> $">
-                                                </div> -->
+									                <input type="text" readonly=""  class="form-control text-info shadow-none" value="BENEFICE NET: <?php echo $benefice - $spent;?> $">
+                                                </div>
                                                 <div class="col-md-3 mt-1">
                                                     <input type="text" readonly=""  class="form-control text-<?=$color?> shadow-none fw-bold" value="DEPENSE: <?=$spent?> $">
-                                                </div> 
+                                                </div>  -->
                                             </div>
                                         </form>
                                         
@@ -66,7 +66,14 @@
                                                 <td><button class="btn fw-bold shadow-none bg-secondary text-white"><i class="align-middle" data-feather="plus-circle"></i></button></td>
                                                 <td><?=date($list_depense[$key]['date'])?></td>
                                                 <td><?=$list_depense[$key]['montant']?> $</td>
-                                                <td><?=$list_depense[$key]['description']?></td>
+                                                <td>
+                                                    <?=$list_depense[$key]['description']?>
+                                                    <?php 
+                                                if ($list_depense[$key]['user_id'] != '') {
+                                                    //echo ' Opération effectuer par'.$list_depense[$key]['name'];
+                                                }
+                                                ?> 
+                                                </td>
                                                 <td>
                                                     <button class="btn shadow-none bg-secondary text-white mt-1" data-bs-target="#UpdateDepense" data-bs-toggle="modal" data-id="<?=$list_depense[$key]['id']?>"><i class="align-middle" data-feather="edit"></i> Modifier</button>
                                                 </td>

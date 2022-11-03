@@ -24,6 +24,7 @@ class Panel extends CI_Controller {
         $this->load->helper('form');
         $this->load->library('session');
         $this->load->model('DataHandle');
+        $user_id = $this->session->userID;
     }
 
     public $user_id = 1;
@@ -139,19 +140,19 @@ class Panel extends CI_Controller {
                 endif;
             endif;
 
-        if(isset(($_POST['user_name'])) and !empty(htmlspecialchars($_POST['user_name']))){
+        if(isset($_POST['user_name']) and !empty($_POST['user_name'])){
             $user_name = htmlspecialchars($_POST['user_name']);
         }else{
             $user_name = '';
         }
 
-        if(isset(($_POST['description'])) and !empty(htmlspecialchars($_POST['description']))){
+        if(isset($_POST['description']) and !empty($_POST['description'])){
             $description = htmlspecialchars($_POST['description']);
         }else{
             $description = '';
         }
 
-        if(isset(($_POST['article'])) and !empty(htmlspecialchars($_POST['article']))){
+        if(isset($_POST['article']) and !empty($_POST['article'])){
             $article = htmlspecialchars($_POST['article']);
             $data['article_s'] = $article;
         }else{
@@ -163,7 +164,7 @@ class Panel extends CI_Controller {
 
         $load = 'loadDataInnerJoinLike';
 
-        if(isset(($_POST['date'])) and !empty(htmlspecialchars($_POST['date']))){
+        if(isset($_POST['date']) and !empty(htmlspecialchars($_POST['date']))){
             $date = htmlspecialchars($_POST['date']);
             $data['date'] = $date;
             $load = 'loadDataInnerJoinWhere';
@@ -179,7 +180,7 @@ class Panel extends CI_Controller {
             $data['FilterDate'] = ''; 
         }
 
-        if(isset(($_POST['date_2'])) and !empty(htmlspecialchars($_POST['date_2']))){
+        if(isset($_POST['date_2']) and !empty(htmlspecialchars($_POST['date_2']))){
             $date_2 = htmlspecialchars($_POST['date_2']);
             $data['date_2'] = $date_2;
             $added_condition = '>=';
@@ -190,15 +191,19 @@ class Panel extends CI_Controller {
             $added_condition = '';
             $end_date = '';
         }
-        
+        $spent_today = 0;
         $data['list_depense'] = $this->DataHandle->loadDataLike('depense',array('description'=>$description, 'date'=>$date));
         $data['list_user'] = $this->DataHandle->loadDataLike('user',array('name'=>$user_name, 'added_date'=>$date));
         $data['list_article'] = $this->DataHandle->loadDataLike('article',array('article'=>$article, 'added_date'=>$date));
-
         $data['vue_global'] = $this->DataHandle->loadDataLike('vue_global',array('article'=>$article, 'date'=>$date));
-        
         $vente = $this->DataHandle->loadDataLike('vente',array('sold_date'=>$date));
         $data['list_vente_today'] = $this->DataHandle->loadDataLike('vente',array('sold_date'=>$the_day));
+        $data['list_spent_today'] = $this->DataHandle->loadDataLike('depense',array('date'=>$the_day));
+
+        foreach($data['list_spent_today'] as $key => $rows){
+            $spent_today = $spent_today + $data['list_spent_today'][$key]['montant'];
+        }
+        $data['spent_today'] = $spent_today;
 
         $depense = 0;
         $benefice = 0;
@@ -252,7 +257,16 @@ class Panel extends CI_Controller {
         }
         $data['n_achet'] = $n_achat;
         $data['count_pa'] = $pa_achat;
+$credit = 0;
+$list_vente = $data['list_vente'];
+        foreach ($list_vente as $key => $value) { 
 
+            if (strpos($list_vente[$key]['description'], 'Crédit') !== false or strpos($list_vente[$key]['description'], 'crédit') !== false or strpos($list_vente[$key]['description'], 'Credit') !== false or strpos($list_vente[$key]['description'], 'credit') !== false) {
+                
+                $credit = $credit + ($list_vente[$key]['quantite_vendu'] * $list_vente[$key]['pvu']); 
+            }
+        }
+        $data['credit'] = $credit;
         $this->load->view('header',$data);
 		$this->load->view($page,$data);
     }
@@ -277,6 +291,7 @@ class Panel extends CI_Controller {
                         'description' => htmlspecialchars($this->input->post('new_article_description')),
                         'article_id' => $article_id,
                         'last_achat_id' => $achat_id,
+                        'user_id' => $this->user_id,
                     );
 
         $add_achat = array(
@@ -288,6 +303,7 @@ class Panel extends CI_Controller {
                         'appr_date' => htmlspecialchars($this->input->post('new_article_date')),
                         'description' => htmlspecialchars($this->input->post('new_article_description')),
                         'achat_id' => $achat_id,
+                        'user_id' => $this->user_id,
                     );
 
         $article = $this->DataHandle->insertData('article',$add_article);
@@ -372,6 +388,7 @@ class Panel extends CI_Controller {
                 'appr_date' => htmlspecialchars($this->input->post('appro_article_date')),
                 'description' => htmlspecialchars($this->input->post('appro_article_description')),
                 'achat_id' => $achat_id,
+                'user_id' => $this->user_id,
             );
 
             $article = array(
@@ -432,6 +449,7 @@ class Panel extends CI_Controller {
                 'sold_date' => htmlspecialchars($this->input->post('sell_article_date')),
                 'description' => htmlspecialchars($this->input->post('sell_article_description')),
                 'vente_id' => $vente_id,
+                'user_id' => $this->user_id,
             );
 
             $article = array(
@@ -450,6 +468,7 @@ class Panel extends CI_Controller {
                     'stock_disponible' => htmlspecialchars($this->input->post('sell_article_quantite_s')) - htmlspecialchars($this->input->post('sell_article_quantite_v')),
                     'article_id' => htmlspecialchars($this->input->post('sell_article_article_id')),
                     'operation_id' => $vente_id,
+                    'user_id' => $this->user_id,
                 );
 
                 $this->DataHandle->insertData('vue_global',$vue_global);
@@ -513,6 +532,7 @@ class Panel extends CI_Controller {
             'montant' => $money,
             'date' => htmlspecialchars($this->input->post('new_depense_date')),
             'description' => htmlspecialchars($this->input->post('new_depense_description')),
+            'user_id' => $this->user_id,
         );
 
         $depense = $this->DataHandle->insertData('depense',$data);
@@ -523,14 +543,14 @@ class Panel extends CI_Controller {
                 'date' => time(),
                 'description'=>'Depense de '.$this->input->post('new_depense_amount').' Enregistrer.',
             );
-            echo json_encode(array('status'=>'success','info'=>'Depense Enregistrer.'));
+            echo json_encode(array('status'=>'success','info'=>'Depense Enregistrer.','origin'=>'new_depense'));
         }else{
             $data = array(
                 'user_id' => $this->user_id,
                 'date' => time(),
                 'description'=>'Echec d\'operation (depense), '.$this->input->post('new_depense_amount').' veuiller reessayer.',
             );
-            echo json_encode(array('status'=>'fail','info'=>'Echec d\'operation (depense), veuiller reessayer.'));
+            echo json_encode(array('status'=>'fail','info'=>'Echec d\'operation (depense), veuiller reessayer.','origin'=>'new_depense'));
         }
      $this->DataHandle->event($data);
     }
@@ -542,9 +562,31 @@ class Panel extends CI_Controller {
             echo json_encode(array('status'=>'fail','info'=>'Echec d\'operation, cette operation ne peux plus etre effectuer sur cette article.')); return;
         }else{
             $where = array('achat_id'=>$this->input->post('update_article_achat_id'));
+            $list_achat = $this->DataHandle->loadDataWhere('achat',$where);
+            $update_article_quantite_a = htmlspecialchars($this->input->post('update_article_quantite_a'));
+            $update_article_quantite_s =  htmlspecialchars($this->input->post('update_article_quantite_s'));
+            if (count($list_achat) > 0) {
+                if($list_achat[0]['quantite_acheter'] > $update_article_quantite_a){
+                    $update_article_quantite_a = htmlspecialchars($this->input->post('update_article_quantite_a'));
+                    $x = $list_achat[0]['quantite_acheter'] - $update_article_quantite_a ;
+                    $update_article_quantite_s = $update_article_quantite_s - $x;
+                }else if($list_achat[0]['quantite_acheter'] < $update_article_quantite_a){
+                    $update_article_quantite_a = htmlspecialchars($this->input->post('update_article_quantite_a'));
+                    $y = $update_article_quantite_a - $list_achat[0]['quantite_acheter'];
+                    $update_article_quantite_s = $y + $update_article_quantite_s;
+                }else{
+                    $update_article_quantite_a = htmlspecialchars($this->input->post('update_article_quantite_a'));
+                    $update_article_quantite_s =  htmlspecialchars($this->input->post('update_article_quantite_s'));
+                } 
+            }else{
+                echo json_encode(array('status'=>'fail','info'=>'Echec d\'operation, achat non reconnu.'));
+                return;
+            }
+            
             $achat_table = array(
                 'article' => htmlspecialchars($this->input->post('update_article_article')),
-                'quantite_stock' => htmlspecialchars($this->input->post('update_article_quantite_s')),
+                'quantite_acheter' => $update_article_quantite_a,
+                'quantite_stock' => $update_article_quantite_s,
                 'pa' => htmlspecialchars($this->input->post('update_article_pau')),
                 'pat' => htmlspecialchars($this->input->post('update_article_pat')),
                 'pv' => htmlspecialchars($this->input->post('update_article_pvu')),
@@ -563,7 +605,7 @@ class Panel extends CI_Controller {
             }
             $where_x = array('last_achat_id'=>$this->input->post('update_article_achat_id'));
             $article_table = array(
-                'quantite_stock' => htmlspecialchars($this->input->post('update_article_quantite_s')),
+                'quantite_stock' => $update_article_quantite_s, //htmlspecialchars($this->input->post('update_article_quantite_s')),
                 'pa' => htmlspecialchars($this->input->post('update_article_pau')),
                 'pv' => htmlspecialchars($this->input->post('update_article_pvu')),
             );
@@ -578,6 +620,13 @@ class Panel extends CI_Controller {
                 return;
             }
             if($achat and $article){
+
+                $where_gb = array('operation_id' => $this->input->post('update_article_achat_id'));
+                $data = $this->DataHandle->loadDataWhere('vue_global',$where_gb);
+                if (count($data) > 0){
+                    $this->DataHandle->updateData('vue_global',array('stock_disponible'=>$update_article_quantite_s,'entree'=>$update_article_quantite_a),$where_gb);
+                }
+
                 $data = array(
                     'user_id' => $this->user_id,
                     'date' => time(),
@@ -748,6 +797,7 @@ class Panel extends CI_Controller {
             'phone' => htmlspecialchars($this->input->post('new_user_phone')),
             'added_date' => time(),
             'password' => password_hash('1234pass',PASSWORD_DEFAULT),
+            'user_id' => $this->user_id,
         );
         $user = $this->DataHandle->insertData('user',$data);
         if($user){
@@ -873,19 +923,31 @@ class Panel extends CI_Controller {
         $qs = htmlspecialchars($this->input->post('update_sold_quantite_s'));
         $pvt = htmlspecialchars($this->input->post('update_sold_pvt'));
         $pvu = htmlspecialchars($this->input->post('update_sold_pvu'));
+        $where_ar = array('article_id' =>  htmlspecialchars($this->input->post('update_sold_article_id')));
+        $dataa = $this->DataHandle->loadDataWhere('article',$where_ar);
+       
+            if (count($dataa) > 0) {
+                $qs_old = $dataa[0]['quantite_stock'];
+            }else{
+                echo json_encode(array('status'=>'fail','info'=>'Echec d\'operation, article non reconnu.'));
+                return;
+            }   
         if($qv_new > $qv_old){ // the client add to the product
             $added = $qv_new - $qv_old;
             $qs = $qs - $added;
+            $qsa = $qs_old - $added;
             $pvt = $pvu * $qv_new;
         }else if($qv_new < $qv_old){ // the client return the product
             $sub = $qv_old - $qv_new;
             $qs = $qs + $sub;
+            $qsa = $qs_old + $sub;
             $pvt = $pvu * $qv_new;
         }else{
             $qs = $qs;
+            $qsa = $qs_old;
             $pvt = $pvu * $qv_new;
         }
-
+        
         $vente = array(
             'article'=>htmlspecialchars($this->input->post('update_sold_article')),
             'pau'=>htmlspecialchars($this->input->post('update_sold_pau')),
@@ -904,7 +966,7 @@ class Panel extends CI_Controller {
             $data = $this->event_data($this->user_id,'Echec d\'operation sur modification vente, id :'.$vente_id.' (vente).');
             return;
         }
-        $article = array('quantite_stock' => $qs);
+        $article = array('quantite_stock' => $qsa);
         $where_a = array('article_id' => htmlspecialchars($this->input->post('update_sold_article_id')));
         $article_r = $this->DataHandle->updateData('article',$article,$where_a);
         if($article_r == false){
@@ -912,7 +974,30 @@ class Panel extends CI_Controller {
             $data = $this->event_data($this->user_id,'Echec d\'operation sur modification vente, id :'.$vente_id.' (article).');
             return;
         }
+
         if($vente_r and $article_r){
+            
+            $where_gb = array('operation_id' => $vente_id);
+            $data = $this->DataHandle->loadDataWhere('vue_global',$where_gb);
+            if (count($data) > 0) {
+
+                $sortie = $data[0]['sortie'];
+                if($sortie == $qv_new){
+                    $sortie = $data[0]['sortie'];
+                }else{
+                    $sortie = $qv_new;  
+                }
+
+                $stock_disponible = $data[0]['stock_disponible'];
+                if($stock_disponible == $qs){
+                    $stock_disponible = $data[0]['stock_disponible'];
+                }else{
+                    $stock_disponible = $qs;  
+                }
+
+                $this->DataHandle->updateData('vue_global',array('stock_disponible'=>$stock_disponible,'sortie'=>$sortie),$where_gb);
+            }
+            
             echo json_encode(array('status'=>'success','info'=>'Vente Modifier.'));
             $data = $this->event_data($this->user_id,'Vente Modifier, id :'.$vente_id.'.');
         }else{

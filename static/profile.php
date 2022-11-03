@@ -154,7 +154,8 @@
 												<div class="card-body">
 													<div class="row">
 														<div class="col mt-0">
-															<h5 class="card-title">PV Valeur Stock Article</h5>
+															<!-- <h5 class="card-title">PV Valeur Stock Article</h5> -->
+															<h5 class="card-title">Valeur vente Credit</h5>
 														</div>
 
 														<div class="col-auto">
@@ -163,7 +164,12 @@
 															</div>
 														</div>
 													</div>
-													<h1 class="mt-1 mb-3"><small><?=$count_pvt?></small> $</h1>
+													<h1 class="mt-1 mb-3">
+														<small>
+														<!-- $count_pvt -->
+															<?=$credit?>
+														</small> $
+													</h1>
 													<div class="mb-0">
 														<!-- <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -3.65% </span>
 														<span class="text-muted">Since last week</span> -->
@@ -274,7 +280,7 @@
 										</a>
 									</div>
 									<div class="col-md-4">
-										<a href="<?=base_url('Panel/pages/')?>article" class="text-decoration-none text-dark">
+										<a href="<?=base_url('Panel/pages/')?>achat" class="text-decoration-none text-dark">
 											<div class="card">
 												<div class="card-body">
 													<div class="row">
@@ -299,7 +305,7 @@
 										</a>
 									</div>
 									<div class="col-md-4">
-										<a href="<?=base_url('Panel/pages/')?>article" class="text-decoration-none text-dark">
+										<a href="<?=base_url('Panel/pages/')?>achat" class="text-decoration-none text-dark">
 											<div class="card">
 												<div class="card-body">
 													<div class="row">
@@ -329,7 +335,7 @@
 												<div class="card-body">
 													<div class="row">
 														<div class="col mt-0">
-															<h5 class="card-title">Benefices</h5>
+															<h5 class="card-title">Bénéfice Brut</h5>
 														</div>
 
 														<div class="col-auto">

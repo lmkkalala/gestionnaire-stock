@@ -62,7 +62,14 @@
                                                 <td width="100" class="text-dark"><?=$list_achat[$key]['article']?></td>
                                                 <td><?=$list_achat[$key]['quantite_acheter']?></td>
                                                 <td class="text-<?=$color?> fw-bold"><?=$list_achat[$key]['quantite_stock']?></td>
-                                                <td><?=date($list_achat[$key]['appr_date'])?></td>
+                                                <td>
+                                                    <?=date($list_achat[$key]['appr_date'])?> 
+                                                    <?php 
+                                                if ($list_achat[$key]['user_id'] != '') {
+                                                    //echo ' Par'.$list_achat[$key]['name'];
+                                                }
+                                                ?> 
+                                                </td>
                                                 <td><?=$list_achat[$key]['pa']?> $</td>
                                                 <td><?=$list_achat[$key]['pa'] * $list_achat[$key]['quantite_acheter']?> $</td>
                                                 <td><?=$list_achat[$key]['pv']?> $</td>
@@ -151,12 +158,16 @@
                     <input type="hidden" name="update_article_achat_id" id="update_article_achat_id">
                     <input type="text" name="update_article_article" id="update_article_article" autocomplete="false" class="form-control" required="" minlength="2" placeholder="">
                 </div>
-
-                <div class="form-group">
-                    <label>Quantite En Stock</label>
-                    <input type="number" step="any" name="update_article_quantite_s" id="update_article_quantite_s" autocomplete="false" class="form-control" required="" minlength="2">
+                <div class="row">
+                    <div class="col-6 form-group">
+                        <label>Quantite Acheter</label>
+                        <input type="number" step="any" name="update_article_quantite_a" id="update_article_quantite_a" autocomplete="false" class="form-control" required="" minlength="2">
+                    </div>
+                    <div class="col-6 form-group">
+                        <label>Quantite En Stock</label>
+                        <input type="number" step="any" name="update_article_quantite_s" id="update_article_quantite_s" autocomplete="false" class="form-control" required="" readonly="" minlength="2">
+                    </div>
                 </div>
-
 				<div class="row">
                     <div class="col-6 form-group">
                         <label>PAU</label>

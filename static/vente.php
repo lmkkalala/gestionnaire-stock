@@ -75,7 +75,13 @@
                                                 <td class="text-<?=$color_stock?> fw-bold"><?=$list_vente[$key]['quantite_stock']?></td>
                                                 <td><?=$list_vente[$key]['pvu']?></td>
                                                 <td><?=$list_vente[$key]['pvt']?></td>
-                                                <td class="fw-bold text-<?=$color_description?>" width="100"><?=$list_vente[$key]['description']?></td>
+                                                <td class="fw-bold text-<?=$color_description?>" width="100"><?=$list_vente[$key]['description']?> 
+                                                <?php 
+                                                    if ($list_vente[$key]['user_id'] != '') {
+                                                        //echo ' Opération effectuer par'.$list_vente[$key]['name'];
+                                                    }
+                                                ?> 
+                                                </td>
                                                 <td>
                                                     <button class="btn shadow-none bg-secondary text-white mt-1" data-bs-target="#UpdateVente" data-bs-toggle="modal" data-id="<?=$list_vente[$key]['vente_id']?>"><i class="align-middle" data-feather="edit"></i> Modifier</button>
                                                 </td>
